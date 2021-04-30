@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'TelaLogin.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:tela_de_login_beco/Splashscreen.dart';
 
 void main(){
 
   runApp(MaterialApp(
-    home: TelaLogin(),
+    home: SplashScreen(),
     debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      primaryColor: Colors.black,
+      secondaryHeaderColor: Colors.black,
+      accentColor: Colors.white
+    ),
   ));
-
 }
