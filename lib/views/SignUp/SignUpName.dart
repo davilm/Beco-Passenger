@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/HomeScreen.dart';
-import 'package:tela_de_login_beco/TelaDeCadastro03.dart';
+import 'package:tela_de_login_beco/views/HomeScreen/HomeScreen.dart';
+import 'package:tela_de_login_beco/views/SignUp/SignUpPassword.dart';
 
-class Nome extends StatefulWidget {
+class SignUpName extends StatefulWidget {
   @override
   _NomeState createState() => _NomeState();
 }
 
-class _NomeState extends State<Nome> {
+class _NomeState extends State<SignUpName> {
   TextEditingController _controllerNome = TextEditingController();
   String _mensagemError = "";
 
@@ -38,8 +38,8 @@ class _NomeState extends State<Nome> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Senha()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpPassword()));
             }),
       ),
       body: Stack(

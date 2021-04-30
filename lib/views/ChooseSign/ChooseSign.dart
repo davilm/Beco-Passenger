@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/TelaDeLogin.dart';
-import 'TelaDeCadastro01.dart';
+import 'package:tela_de_login_beco/views/SignIn/TelaDeLogin.dart';
+import '../SignUp/SignUpCpf.dart';
 
-class LoginPage extends StatefulWidget {
+class ChooseSign extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<ChooseSign> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(50)),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CadastroCpf()));
+                        MaterialPageRoute(builder: (context) => SignUpCpf()));
                   },
                 ),
               ),

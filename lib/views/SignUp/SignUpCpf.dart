@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/LoginPage.dart';
-import 'package:tela_de_login_beco/TelaDeCadasro02.dart';
-import 'package:tela_de_login_beco/TelaDeLogin.dart';
+import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
+import 'package:tela_de_login_beco/views/SignUp/SignUpEmail.dart';
+import 'package:tela_de_login_beco/views/SignIn/TelaDeLogin.dart';
 
-class CadastroCpf extends StatefulWidget {
+class SignUpCpf extends StatefulWidget {
   @override
   _CadastroCpfState createState() => _CadastroCpfState();
 }
 
-class _CadastroCpfState extends State<CadastroCpf> {
+class _CadastroCpfState extends State<SignUpCpf> {
   TextEditingController _controllerCPF = TextEditingController();
   String _mensagemError = "";
 
@@ -17,7 +17,7 @@ class _CadastroCpfState extends State<CadastroCpf> {
 
     if (cpf.isNotEmpty && cpf.length == 14 && cpf.contains("-")) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TelaEmail()));
+          context, MaterialPageRoute(builder: (context) => SignUpEmail()));
     } else {
       setState(() {
         _mensagemError = "Insira um CPF Válido/ Separando por '-'";
@@ -40,7 +40,7 @@ class _CadastroCpfState extends State<CadastroCpf> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+                  MaterialPageRoute(builder: (context) => ChooseSign()));
             }),
       ),
       body: Stack(

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/TelaDeCadasro02.dart';
-import 'package:tela_de_login_beco/TelaDeCadastro04.dart';
+import 'package:tela_de_login_beco/views/SignUp/SignUpCpf.dart';
+import 'package:tela_de_login_beco/views/SignUp/SignUpPassword.dart';
 
-class Senha extends StatefulWidget {
+class SignUpEmail extends StatefulWidget {
   @override
-  _SenhaState createState() => _SenhaState();
+  _TelaEmailState createState() => _TelaEmailState();
 }
 
-class _SenhaState extends State<Senha> {
-  TextEditingController _controllerSenha = TextEditingController();
+class _TelaEmailState extends State<SignUpEmail> {
+  TextEditingController _controllerEmail = TextEditingController();
   String _mensagemError = "";
 
-  validarSenha() {
-    String senha = _controllerSenha.text;
+  validarEmail() {
+    String email = _controllerEmail.text;
 
-    if (senha.isNotEmpty && senha.length > 5) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Nome()));
+    if (email.isNotEmpty && email.contains("@")) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignUpPassword()));
     } else {
       setState(() {
-        _mensagemError = "A senha deve conter mais de 5 digitos";
+        _mensagemError = "Insira um Email Válido";
       });
     }
   }
@@ -38,7 +39,7 @@ class _SenhaState extends State<Senha> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TelaEmail()));
+                  MaterialPageRoute(builder: (context) => SignUpCpf()));
             }),
       ),
       body: Stack(
@@ -61,7 +62,7 @@ class _SenhaState extends State<Senha> {
                         padding: const EdgeInsets.only(
                             top: 10, right: 110, left: 11),
                         child: Text(
-                          "Crie a senha da sua conta",
+                          "Insira seu endereço de Email",
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                       ),
@@ -71,10 +72,10 @@ class _SenhaState extends State<Senha> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextField(
-                        controller: _controllerSenha,
+                        controller: _controllerEmail,
                         cursorColor: Colors.black,
                         decoration:
-                            InputDecoration(hintText: "Digite sua senha"),
+                            InputDecoration(hintText: "name@exemple.com"),
                       ),
                     ),
 
@@ -95,7 +96,7 @@ class _SenhaState extends State<Senha> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            validarSenha();
+                            validarEmail();
                           },
                         ),
                       ),

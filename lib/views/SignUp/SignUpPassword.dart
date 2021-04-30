@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/Outro.dart';
-import 'package:tela_de_login_beco/TelaDeCadastro01.dart';
-import 'package:tela_de_login_beco/TelaDeCadastro03.dart';
+import 'package:tela_de_login_beco/views/SignUp/SignUpEmail.dart';
+import 'package:tela_de_login_beco/views/SignUp/SignUpName.dart';
 
-class TelaEmail extends StatefulWidget {
+class SignUpPassword extends StatefulWidget {
   @override
-  _TelaEmailState createState() => _TelaEmailState();
+  _SenhaState createState() => _SenhaState();
 }
 
-class _TelaEmailState extends State<TelaEmail> {
-  TextEditingController _controllerEmail = TextEditingController();
+class _SenhaState extends State<SignUpPassword> {
+  TextEditingController _controllerSenha = TextEditingController();
   String _mensagemError = "";
 
-  validarEmail() {
-    String email = _controllerEmail.text;
+  validarSenha() {
+    String senha = _controllerSenha.text;
 
-    if (email.isNotEmpty && email.contains("@")) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Senha()));
+    if (senha.isNotEmpty && senha.length > 5) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignUpName()));
     } else {
       setState(() {
-        _mensagemError = "Insira um Email Válido";
+        _mensagemError = "A senha deve conter mais de 5 digitos";
       });
     }
   }
@@ -39,7 +39,7 @@ class _TelaEmailState extends State<TelaEmail> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CadastroCpf()));
+                  MaterialPageRoute(builder: (context) => SignUpEmail()));
             }),
       ),
       body: Stack(
@@ -62,7 +62,7 @@ class _TelaEmailState extends State<TelaEmail> {
                         padding: const EdgeInsets.only(
                             top: 10, right: 110, left: 11),
                         child: Text(
-                          "Insira seu endereço de Email",
+                          "Crie a senha da sua conta",
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                       ),
@@ -72,10 +72,10 @@ class _TelaEmailState extends State<TelaEmail> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextField(
-                        controller: _controllerEmail,
+                        controller: _controllerSenha,
                         cursorColor: Colors.black,
                         decoration:
-                            InputDecoration(hintText: "name@exemple.com"),
+                            InputDecoration(hintText: "Digite sua senha"),
                       ),
                     ),
 
@@ -96,7 +96,7 @@ class _TelaEmailState extends State<TelaEmail> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            validarEmail();
+                            validarSenha();
                           },
                         ),
                       ),

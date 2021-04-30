@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/LoginPage.dart';
+import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
 
 class TelaDeLogin extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _TelaDeLoginState extends State<TelaDeLogin> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+                  MaterialPageRoute(builder: (context) => ChooseSign()));
             }),
         title: Text(
           "Login",
