@@ -10,23 +10,21 @@ class _TelaDeLoginState extends State<TelaDeLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.push(context,
-                MaterialPageRoute(builder: (context)=> LoginPage())
-                );
-              }
-              ),
-          title: Text(
-            "Login",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            }),
+        title: Text(
+          "Login",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
+      ),
 
       //Campo Email, CPF, Telefone
       body: SingleChildScrollView(
@@ -39,7 +37,7 @@ class _TelaDeLoginState extends State<TelaDeLogin> {
             children: [
               Container(
                 padding: EdgeInsets.only(top: 50),
-                width: MediaQuery.of(context).size.width/1.09,
+                width: MediaQuery.of(context).size.width / 1.09,
                 child: TextField(
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
@@ -48,10 +46,9 @@ class _TelaDeLoginState extends State<TelaDeLogin> {
                 ),
               ),
 
-
               Container(
                 padding: EdgeInsets.only(top: 30),
-                width: MediaQuery.of(context).size.width/1.09,
+                width: MediaQuery.of(context).size.width / 1.09,
                 child: TextField(
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
@@ -63,7 +60,8 @@ class _TelaDeLoginState extends State<TelaDeLogin> {
               //Campo Esqueci Minha Senha
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: Text("Esqueci minha senha",
+                child: Text(
+                  "Esqueci minha senha",
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Colors.black,
@@ -71,38 +69,30 @@ class _TelaDeLoginState extends State<TelaDeLogin> {
                 ),
               ),
 
-
               //Botao entrar
               Container(
-                padding: EdgeInsets.only(top: 380),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 2.4),
                 child: Container(
-                  decoration: BoxDecoration(
-
-                  ),
+                  decoration: BoxDecoration(),
                   height: 38,
-                  width: MediaQuery.of(context).size.width/1.09,
+                  width: MediaQuery.of(context).size.width / 1.09,
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)
-                    ),
-                    child: Text("Entrar",
-                      style: TextStyle(
-                          color: Colors.white
-                      ),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Text(
+                      "Entrar",
+                      style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.black,
-
-                    onPressed: (){},
+                    onPressed: () {},
                   ),
                 ),
               )
             ],
-
           ),
         ),
       ),
-
     );
-
   }
 }

@@ -10,34 +10,38 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
-
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("img/Login.jpeg"),
-            fit: BoxFit.fitHeight
+            fit: BoxFit.fitHeight,
+            colorFilter: ColorFilter.mode(Colors.black26, BlendMode.darken),
           ),
           border: Border.all(width: 3, color: Colors.transparent),
         ),
 
         //Texto inferior
         child: Column(
-
           children: [
             Container(
-              padding: EdgeInsets.only(left: 0, top: 550, right: 100),
-              width: MediaQuery.of(context).size.width/1.2,
-              child: Text("Viaje a hora que quiser, com segurança e privacidade",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16
-
+              padding: EdgeInsets.only(
+                  left: 0,
+                  top: screenSize.height / 1.5,
+                  right: screenSize.width / 5),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text(
+                "Viaje a hora que quiser, com segurança e privacidade",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-              ),
-
             ),
 
             //Botão cadastrar
@@ -45,20 +49,19 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(16.0),
               child: Container(
                 height: 38,
-                width: MediaQuery.of(context).size.width/1.2,
+                width: MediaQuery.of(context).size.width / 1.2,
                 child: RaisedButton(
-                  child: Text("Cadastrar",
+                  child: Text(
+                    "Cadastrar",
                     style: TextStyle(
-                        fontSize: 16,
+                      fontSize: 16,
                     ),
                   ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)
-                  ),
-                  onPressed: (){
+                      borderRadius: BorderRadius.circular(50)),
+                  onPressed: () {
                     Navigator.push(context,
-                    MaterialPageRoute(builder: (context)=> CadastroCpf())
-                    );
+                        MaterialPageRoute(builder: (context) => CadastroCpf()));
                   },
                 ),
               ),
@@ -68,27 +71,21 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               child: Container(
                 height: 38,
-                width: MediaQuery.of(context).size.width/1.2,
+                width: MediaQuery.of(context).size.width / 1.2,
                 decoration: BoxDecoration(
                     border: Border.all(width: 2, color: Colors.white),
-                  borderRadius: BorderRadius.circular(50)
-                ),
+                    borderRadius: BorderRadius.circular(50)),
                 child: RaisedButton(
                   color: Colors.transparent,
-                  child: Text("Entrar",
-                    style: TextStyle(
-                        fontSize: 16,
-                      color: Colors.white
-                    ),
+                  child: Text(
+                    "Entrar",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)
-                  ),
-                  onPressed: (){
-
+                      borderRadius: BorderRadius.circular(50)),
+                  onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> TelaDeLogin())
-                    );
+                        MaterialPageRoute(builder: (context) => TelaDeLogin()));
                   },
                 ),
               ),
