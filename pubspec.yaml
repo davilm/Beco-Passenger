@@ -1,4 +1,4 @@
-name: tela_login_de_teste_03
+name: tela_de_login_beco
 description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
@@ -28,10 +28,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  firebase_core: ^0.4.0+6
-  firebase_auth: ^0.11.1+7
-  firebase_storage: ^3.0.2
-  cloud_firestore: ^0.12.5+2
+  flutter_spinkit: "^4.1.2"
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +49,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - img/Login.jpeg
+    -
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
