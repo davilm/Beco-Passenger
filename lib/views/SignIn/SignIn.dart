@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/api/FirebaseAuth.dart';
 import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
 
 class SignIn extends StatefulWidget {
@@ -7,6 +8,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +43,7 @@ class _SignInState extends State<SignIn> {
                 padding: EdgeInsets.only(top: 50),
                 width: MediaQuery.of(context).size.width / 1.09,
                 child: TextField(
+                  controller: _emailController,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     hintText: "E-mail",
@@ -50,6 +55,7 @@ class _SignInState extends State<SignIn> {
                 padding: EdgeInsets.only(top: 30),
                 width: MediaQuery.of(context).size.width / 1.09,
                 child: TextField(
+                  controller: _passwordController,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     hintText: "Senha",
@@ -85,7 +91,10 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseAuth().signIn(
+                          _emailController.text, _passwordController.text);
+                    },
                   ),
                 ),
               )

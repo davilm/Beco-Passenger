@@ -22,9 +22,7 @@ class _NameState extends State<SignUpName> {
 
     if (name.isNotEmpty && name.length > 5) {
       widget.newUser.name = _nameController.text;
-      print("---------------------------------------------");
-      print(widget.newUser.password);
-      // newUser;
+
       FirebaseAuth().signUp(widget.newUser.email, widget.newUser.password);
 
       Navigator.push(
