@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
 
-class TelaDeLogin extends StatefulWidget {
+class SignIn extends StatefulWidget {
   @override
-  _TelaDeLoginState createState() => _TelaDeLoginState();
+  _SignInState createState() => _SignInState();
 }
 
-class _TelaDeLoginState extends State<TelaDeLogin> {
+class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
