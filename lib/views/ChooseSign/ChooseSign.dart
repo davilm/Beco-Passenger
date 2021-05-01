@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tela_de_login_beco/shared/models/user_model.dart';
-import 'package:tela_de_login_beco/views/SignIn/TelaDeLogin.dart';
+import 'package:tela_de_login_beco/views/SignIn/SignIn.dart';
 import '../SignUp/SignUpCpf.dart';
 
 class ChooseSign extends StatefulWidget {
@@ -89,7 +89,7 @@ class _LoginPageState extends State<ChooseSign> {
                       borderRadius: BorderRadius.circular(50)),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => TelaDeLogin()));
+                        MaterialPageRoute(builder: (context) => SignIn()));
                   },
                 ),
               ),
