@@ -1,32 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/shared/models/user_model.dart';
 import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
 import 'package:tela_de_login_beco/views/SignUp/SignUpEmail.dart';
-import 'package:tela_de_login_beco/views/SignIn/TelaDeLogin.dart';
 
 class SignUpCpf extends StatefulWidget {
+  final UserModel newUser;
+
+  SignUpCpf({Key key, @required this.newUser}) : super(key: key);
+
   @override
-  _CadastroCpfState createState() => _CadastroCpfState();
+  _SignUpCpfState createState() => _SignUpCpfState();
 }
 
-class _CadastroCpfState extends State<SignUpCpf> {
-  TextEditingController _controllerCPF = TextEditingController();
-  String _mensagemError = "";
+class _SignUpCpfState extends State<SignUpCpf> {
+  TextEditingController _cpfController = new TextEditingController();
+  String _errorMessage = "";
 
   validarCpf() {
-    String cpf = _controllerCPF.text;
+    String cpf = _cpfController.text;
 
     if (cpf.isNotEmpty && cpf.length == 14 && cpf.contains("-")) {
+      widget.newUser.cpf = _cpfController.text;
+
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpEmail()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignUpEmail(newUser: widget.newUser),
+        ),
+      );
     } else {
       setState(() {
-        _mensagemError = "Insira um CPF Válido/ Separando por '-'";
+        _errorMessage = "Insira um CPF Válido/ Separando por '-'";
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    _cpfController.text = widget.newUser.cpf;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -64,7 +75,10 @@ class _CadastroCpfState extends State<SignUpCpf> {
                             top: 10, right: 110, left: 11),
                         child: Text(
                           "Insira seu CPF",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -73,9 +87,12 @@ class _CadastroCpfState extends State<SignUpCpf> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextField(
-                        controller: _controllerCPF,
+                        controller: _cpfController,
                         cursorColor: Colors.black,
-                        decoration: InputDecoration(hintText: "000-000-000-00"),
+                        decoration: InputDecoration(
+                          hintText: "000-000-000-00",
+                        ),
+                        autofocus: true,
                       ),
                     ),
 
@@ -104,7 +121,7 @@ class _CadastroCpfState extends State<SignUpCpf> {
                     ),
 
                     Text(
-                      _mensagemError,
+                      _errorMessage,
                       style: TextStyle(
                           color: Colors.red, fontWeight: FontWeight.bold),
                     )

@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/api/FirebaseAuth.dart';
+import 'package:tela_de_login_beco/shared/models/user_model.dart';
 import 'package:tela_de_login_beco/views/HomeScreen/HomeScreen.dart';
 import 'package:tela_de_login_beco/views/SignUp/SignUpPassword.dart';
 
 class SignUpName extends StatefulWidget {
+  final UserModel newUser;
+
+  SignUpName({Key key, @required this.newUser}) : super(key: key);
+
   @override
-  _NomeState createState() => _NomeState();
+  _NameState createState() => _NameState();
 }
 
-class _NomeState extends State<SignUpName> {
-  TextEditingController _controllerNome = TextEditingController();
-  String _mensagemError = "";
+class _NameState extends State<SignUpName> {
+  TextEditingController _nameController = TextEditingController();
+  String _errorMessage = "";
 
   validarNome() {
-    String nome = _controllerNome.text;
+    String name = _nameController.text;
 
-    if (nome.isNotEmpty && nome.length > 5) {
+    if (name.isNotEmpty && name.length > 5) {
+      widget.newUser.name = _nameController.text;
+      print("---------------------------------------------");
+      print(widget.newUser.password);
+      // newUser;
+      FirebaseAuth().signUp(widget.newUser.email, widget.newUser.password);
+
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
     } else {
       setState(() {
-        _mensagemError = "Digite seu nome e sobrenome";
+        _errorMessage = "Digite seu nome e sobrenome";
       });
     }
   }
@@ -38,8 +54,10 @@ class _NomeState extends State<SignUpName> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpPassword()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpPassword()),
+              );
             }),
       ),
       body: Stack(
@@ -72,9 +90,10 @@ class _NomeState extends State<SignUpName> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextField(
-                        controller: _controllerNome,
+                        controller: _nameController,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(hintText: "Nome completo"),
+                        autofocus: true,
                       ),
                     ),
 
@@ -102,7 +121,7 @@ class _NomeState extends State<SignUpName> {
                     ),
 
                     Text(
-                      _mensagemError,
+                      _errorMessage,
                       style: TextStyle(
                           color: Colors.red, fontWeight: FontWeight.bold),
                     )

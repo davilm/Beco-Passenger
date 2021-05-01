@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/shared/models/user_model.dart';
 import 'package:tela_de_login_beco/views/SignUp/SignUpEmail.dart';
 import 'package:tela_de_login_beco/views/SignUp/SignUpName.dart';
 
 class SignUpPassword extends StatefulWidget {
+  final UserModel newUser;
+
+  SignUpPassword({Key key, @required this.newUser}) : super(key: key);
+
   @override
-  _SenhaState createState() => _SenhaState();
+  _PasswordState createState() => _PasswordState();
 }
 
-class _SenhaState extends State<SignUpPassword> {
-  TextEditingController _controllerSenha = TextEditingController();
-  String _mensagemError = "";
+class _PasswordState extends State<SignUpPassword> {
+  TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = "";
 
   validarSenha() {
-    String senha = _controllerSenha.text;
+    String password = _passwordController.text;
 
-    if (senha.isNotEmpty && senha.length > 5) {
+    if (password.isNotEmpty && password.length > 5) {
+      widget.newUser.password = _passwordController.text;
+
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpName()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => SignUpName(newUser: widget.newUser)),
+      );
     } else {
       setState(() {
-        _mensagemError = "A senha deve conter mais de 5 digitos";
+        _errorMessage = "A senha deve conter mais de 5 digitos";
       });
     }
   }
@@ -38,8 +48,11 @@ class _SenhaState extends State<SignUpPassword> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpEmail()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SignUpEmail(newUser: widget.newUser)));
             }),
       ),
       body: Stack(
@@ -63,7 +76,10 @@ class _SenhaState extends State<SignUpPassword> {
                             top: 10, right: 110, left: 11),
                         child: Text(
                           "Crie a senha da sua conta",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -72,10 +88,11 @@ class _SenhaState extends State<SignUpPassword> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextField(
-                        controller: _controllerSenha,
+                        controller: _passwordController,
                         cursorColor: Colors.black,
                         decoration:
                             InputDecoration(hintText: "Digite sua senha"),
+                        autofocus: true,
                       ),
                     ),
 
@@ -103,7 +120,7 @@ class _SenhaState extends State<SignUpPassword> {
                     ),
 
                     Text(
-                      _mensagemError,
+                      _errorMessage,
                       style: TextStyle(
                           color: Colors.red, fontWeight: FontWeight.bold),
                     )

@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/shared/models/user_model.dart';
 import 'package:tela_de_login_beco/views/SignUp/SignUpCpf.dart';
 import 'package:tela_de_login_beco/views/SignUp/SignUpPassword.dart';
 
 class SignUpEmail extends StatefulWidget {
+  final UserModel newUser;
+
+  SignUpEmail({Key key, @required this.newUser}) : super(key: key);
+
   @override
-  _TelaEmailState createState() => _TelaEmailState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _TelaEmailState extends State<SignUpEmail> {
-  TextEditingController _controllerEmail = TextEditingController();
-  String _mensagemError = "";
+class _SignUpState extends State<SignUpEmail> {
+  TextEditingController _emailController = TextEditingController();
+
+  String _errorMessage = "";
 
   validarEmail() {
-    String email = _controllerEmail.text;
+    String email = _emailController.text;
 
     if (email.isNotEmpty && email.contains("@")) {
+      widget.newUser.email = _emailController.text;
+
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpPassword()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignUpPassword(newUser: widget.newUser),
+        ),
+      );
     } else {
       setState(() {
-        _mensagemError = "Insira um Email Válido";
+        _errorMessage = "Insira um Email Válido";
       });
     }
   }
@@ -38,8 +50,10 @@ class _TelaEmailState extends State<SignUpEmail> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpCpf()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpCpf()),
+              );
             }),
       ),
       body: Stack(
@@ -63,7 +77,10 @@ class _TelaEmailState extends State<SignUpEmail> {
                             top: 10, right: 110, left: 11),
                         child: Text(
                           "Insira seu endereço de Email",
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -72,10 +89,11 @@ class _TelaEmailState extends State<SignUpEmail> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextField(
-                        controller: _controllerEmail,
+                        controller: _emailController,
                         cursorColor: Colors.black,
                         decoration:
                             InputDecoration(hintText: "name@exemple.com"),
+                        autofocus: true,
                       ),
                     ),
 
@@ -103,9 +121,11 @@ class _TelaEmailState extends State<SignUpEmail> {
                     ),
 
                     Text(
-                      _mensagemError,
+                      _errorMessage,
                       style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold),
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),

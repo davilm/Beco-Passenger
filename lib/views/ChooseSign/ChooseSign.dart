@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/shared/models/user_model.dart';
 import 'package:tela_de_login_beco/views/SignIn/TelaDeLogin.dart';
 import '../SignUp/SignUpCpf.dart';
 
@@ -11,6 +12,7 @@ class _LoginPageState extends State<ChooseSign> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    final newUser = new UserModel(null, null, null, null);
 
     return Scaffold(
       body: Container(
@@ -60,8 +62,10 @@ class _LoginPageState extends State<ChooseSign> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50)),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUpCpf()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignUpCpf(newUser: newUser)));
                   },
                 ),
               ),
