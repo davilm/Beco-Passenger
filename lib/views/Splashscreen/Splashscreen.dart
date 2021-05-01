@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/LoginPage.dart';
+import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
 import 'dart:async';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -10,23 +10,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(
-    seconds: 4,
-    ),(){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()),);
+    Future.delayed(
+        Duration(
+          seconds: 4,
+        ), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ChooseSign()),
+      );
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
 
@@ -36,15 +37,14 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Container(
                   padding: EdgeInsets.only(top: 100),
-                  child: Text("BECO",
+                  child: Text(
+                    "BECO",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 60,
                         letterSpacing: 2,
-                        decoration: TextDecoration.none
-                    ),
-                  )
-              )
+                        decoration: TextDecoration.none),
+                  ))
             ],
           ),
 
@@ -53,17 +53,12 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Padding(
               padding: const EdgeInsets.only(top: 16),
               child: CircularProgressIndicator(
-              backgroundColor: Colors.black,
-
+                backgroundColor: Colors.black,
               ),
             ),
           )
         ],
       ),
-
-
-
-
     );
   }
 }
