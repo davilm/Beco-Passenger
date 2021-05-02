@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tela_de_login_beco/main.dart';
 import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
+import 'package:tela_de_login_beco/views/HomeScreen/widgets/DrawerWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,20 +12,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.red,
       appBar: AppBar(
-        title: Text(
-          "Home do App",
-          style: TextStyle(color: Colors.black),
-        ),
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ChooseSign()));
-            }),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
       ),
+      body: Center(child: Text("Content")),
+      drawer: DrawerWidget(),
     );
   }
 }
