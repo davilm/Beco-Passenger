@@ -55,7 +55,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - img/Login.jpeg
-    -
+    - assets/images/face-light.png
+    - assets/images/face-dark.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -68,17 +69,24 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Be Vietnam
+      fonts:
+        - asset: assets/fonts/BeVietnam-Thin.ttf
+        - asset: assets/fonts/BeVietnam-Light.ttf
+        - asset: assets/fonts/BeVietnam-Medium.ttf
+        - asset: assets/fonts/BeVietnam-Regular.ttf
+        - asset: assets/fonts/BeVietnam-SemiBold.ttf
+        - asset: assets/fonts/BeVietnam-Bold.ttf
+        - asset: assets/fonts/BeVietnam-ExtraBold.ttf
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Thin.ttf
+        - asset: assets/fonts/Montserrat-Light.ttf
+        - asset: assets/fonts/Montserrat-Medium.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf 
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
