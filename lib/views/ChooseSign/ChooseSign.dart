@@ -12,7 +12,7 @@ class _LoginPageState extends State<ChooseSign> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    final newUser = new UserModel(null, null, null, null);
+    final newUser = new UserModel(null, null, null, null, null);
 
     return Scaffold(
       body: Container(
