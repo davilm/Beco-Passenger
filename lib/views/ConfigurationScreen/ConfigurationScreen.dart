@@ -34,7 +34,9 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             children: [
               Container(
                 child: IconButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.pop(context),
+                  },
                   icon: Icon(Icons.arrow_back_ios, size: 20),
                 ),
               ),

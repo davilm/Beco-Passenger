@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tela_de_login_beco/views/ConfigurationScreen/ConfigurationScreen.dart';
 import '/shared/widgets/ArrowButtonWidget.dart';
 import '/shared/widgets/InfoCardWidget.dart';
 import '/core/core.dart';
@@ -117,7 +118,13 @@ class DrawerWidget extends StatelessWidget {
                       Expanded(
                         child: SizedBox(),
                       ),
-                      ArrowButtonWidget(() => {}),
+                      ArrowButtonWidget(() => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ConfigurationScreen()),
+                            ),
+                          }),
                     ],
                   ),
                 ),
