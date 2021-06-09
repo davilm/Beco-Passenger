@@ -26,9 +26,9 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
   );
 
-  static final TextStyle subTitle18 = GoogleFonts.beVietnam(
+  static final TextStyle subTitle20 = GoogleFonts.beVietnam(
     color: Color(0xff15192C),
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: FontWeight.w600,
   );
 
