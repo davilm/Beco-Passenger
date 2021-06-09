@@ -16,13 +16,13 @@ class AppTextStyles {
 
   static final TextStyle firstName = GoogleFonts.montserrat(
     color: Color(0xff15192C),
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
+    fontSize: 35,
+    fontWeight: FontWeight.bold,
   );
 
   static final TextStyle secondName = GoogleFonts.montserrat(
     color: Color(0xff92959E),
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: FontWeight.normal,
   );
 
