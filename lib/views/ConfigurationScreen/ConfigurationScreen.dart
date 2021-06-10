@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/core/core.dart';
+import '/core/core.dart';
+import '/shared/widgets/ArrowButtonWidget.dart';
 import '../../shared/widgets/InfoCardAccountWidget.dart';
 import '../../shared/widgets/InfoCardWidget.dart';
 
@@ -33,7 +34,9 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             children: [
               Container(
                 child: IconButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.pop(context),
+                  },
                   icon: Icon(Icons.arrow_back_ios, size: 20),
                 ),
               ),
@@ -51,19 +54,28 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
                       color: Colors.blue,
                     ),
                     Padding(
-                        padding: EdgeInsets.only(top: 40),
-                        child: Text(account, style: AppTextStyles.subTitle18)),
+                        padding: EdgeInsets.only(top: 37),
+                        child: Text(account, style: AppTextStyles.subTitle20)),
                     Padding(
-                      padding: EdgeInsets.only(top: 15),
-                      child: InfoCardAccountWidget(
-                        userName,
-                        userInfo,
-                        AppImages.faceLight,
+                      padding: EdgeInsets.only(left: 8, top: 32, bottom: 32),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InfoCardAccountWidget(
+                            userName,
+                            userInfo,
+                            AppImages.faceLight,
+                          ),
+                          Expanded(child: SizedBox()),
+                          ArrowButtonWidget(() => {}),
+                        ],
                       ),
                     ),
+                    // SizedBox(height: 15),
                     Padding(
-                      padding: EdgeInsets.only(top: 40),
-                      child: Text(config, style: AppTextStyles.subTitle18),
+                      padding: EdgeInsets.only(top: 5),
+                      child: Text(config, style: AppTextStyles.subTitle20),
                     ),
                     SizedBox(height: 15),
                     Padding(
@@ -81,22 +93,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
                             child:
                                 Text("Português", style: AppTextStyles.text10),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 30),
-                            child: Container(
-                              alignment: Alignment.bottomLeft,
-                              width: 42,
-                              height: 42,
-                              // color: Colors.red,
-                              child: Center(
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 12,
-                                ),
-                              ),
-                              color: Color(0xffF5F5F7),
-                            ),
-                          ),
+                          ArrowButtonWidget(() => {}),
                         ],
                       ),
                     ),
@@ -111,22 +108,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
                           Expanded(
                             child: SizedBox(),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 30),
-                            child: Container(
-                              alignment: Alignment.bottomLeft,
-                              width: 42,
-                              height: 42,
-                              // color: Colors.red,
-                              child: Center(
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 12,
-                                ),
-                              ),
-                              color: Color(0xffF5F5F7),
-                            ),
-                          ),
+                          ArrowButtonWidget(() => {}),
                         ],
                       ),
                     ),

@@ -5,8 +5,8 @@ import 'package:tela_de_login_beco/views/Splashscreen/Splashscreen.dart';
 
 void main() {
   runApp(MaterialApp(
-    // home: HomeScreen(),
     home: HomeScreen(),
+    // home: ConfigurationScreen(),
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
         primaryColor: Colors.black,

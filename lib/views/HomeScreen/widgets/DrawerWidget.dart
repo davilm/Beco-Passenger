@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tela_de_login_beco/views/ConfigurationScreen/ConfigurationScreen.dart';
+import '/shared/widgets/ArrowButtonWidget.dart';
 import '/shared/widgets/InfoCardWidget.dart';
 import '/core/core.dart';
 import '/views/HomeScreen/widgets/ChartWidget.dart';
@@ -102,24 +104,7 @@ class DrawerWidget extends StatelessWidget {
                       Expanded(
                         child: SizedBox(),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 30),
-                        child: Container(
-                          alignment: Alignment.bottomLeft,
-                          decoration: BoxDecoration(
-                            color: Color(0xffF5F5F7),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          width: 42,
-                          height: 42,
-                          child: Center(
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              size: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      ArrowButtonWidget(() => {}),
                     ],
                   ),
                 ),
@@ -133,24 +118,13 @@ class DrawerWidget extends StatelessWidget {
                       Expanded(
                         child: SizedBox(),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 30),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xffF5F5F7),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          alignment: Alignment.bottomLeft,
-                          width: 42,
-                          height: 42,
-                          child: Center(
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              size: 12,
+                      ArrowButtonWidget(() => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ConfigurationScreen()),
                             ),
-                          ),
-                        ),
-                      ),
+                          }),
                     ],
                   ),
                 ),
