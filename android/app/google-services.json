@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "564972799942",
-    "project_id": "tela-de-login-02",
-    "storage_bucket": "tela-de-login-02.appspot.com"
+    "project_number": "730337300278",
+    "project_id": "beco-9fab4",
+    "storage_bucket": "beco-9fab4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:564972799942:android:6892511d4b2c302d3294c7",
+        "mobilesdk_app_id": "1:730337300278:android:2282638584ca9919976d97",
         "android_client_info": {
-          "package_name": "com.example.tela_login_de_teste_03"
+          "package_name": "com.example.beco_passenger"
         }
       },
       "oauth_client": [
         {
-          "client_id": "564972799942-eo869k8bi6rbc0f1r1hrsjhvv2c1b481.apps.googleusercontent.com",
+          "client_id": "730337300278-ej35ufhefk8oc2knp8n9e8uic5fkg5kh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPPA7F1zvxnrYQQU9BuERbLNZ55T2OHaE"
+          "current_key": "AIzaSyAm0aTxU1UM7QL4PW50jQ77P6trJIY3Ee4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "564972799942-eo869k8bi6rbc0f1r1hrsjhvv2c1b481.apps.googleusercontent.com",
+              "client_id": "730337300278-ej35ufhefk8oc2knp8n9e8uic5fkg5kh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

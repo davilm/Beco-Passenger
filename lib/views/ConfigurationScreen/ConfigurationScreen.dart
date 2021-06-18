@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '/core/core.dart';
-import '/shared/widgets/ArrowButtonWidget.dart';
-import '../../shared/widgets/InfoCardAccountWidget.dart';
-import '../../shared/widgets/InfoCardWidget.dart';
+
+import 'package:beco_passenger/shared/widgets/ArrowButtonWidget.dart';
+import 'package:beco_passenger/shared/widgets/InfoCardAccountWidget.dart';
+import 'package:beco_passenger/shared/widgets/InfoCardWidget.dart';
 
 class ConfigurationScreen extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class ConfigurationScreen extends StatefulWidget {
 
 class _ConfigurationScreenState extends State<ConfigurationScreen> {
   bool _value = false;
+
   @override
   Widget build(BuildContext context) {
     final double widthMargin = MediaQuery.of(context).size.width / 40;

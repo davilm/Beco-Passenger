@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '/core/core.dart';
-
 class ChartWidget extends StatefulWidget {
   final String image;
 
-  ChartWidget(this.image, {Key key}) : super(key: key);
+  ChartWidget(this.image);
 
   @override
   _ChartWidgetState createState() => _ChartWidgetState();
@@ -13,8 +11,8 @@ class ChartWidget extends StatefulWidget {
 
 class _ChartWidgetState extends State<ChartWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   void initAnimation() {
     _controller =

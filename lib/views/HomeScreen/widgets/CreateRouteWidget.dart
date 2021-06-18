@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CreateRouteWidget extends StatelessWidget {
-  const CreateRouteWidget({Key key}) : super(key: key);
+  const CreateRouteWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

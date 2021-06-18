@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/api/FirebaseAuth.dart';
-import 'package:tela_de_login_beco/shared/models/user_model.dart';
-import 'package:tela_de_login_beco/views/HomeScreen/HomeScreen.dart';
-import 'package:tela_de_login_beco/views/SignUp/SignUpPassword.dart';
+
+import 'package:beco_passenger/api/Authentication.dart';
+import 'package:beco_passenger/shared/models/user_model.dart';
+import 'package:beco_passenger/views/SignIn/SignIn.dart';
+import 'package:beco_passenger/views/SignUp/SignUpPassword.dart';
 
 class SignUpName extends StatefulWidget {
   final UserModel newUser;
 
-  SignUpName({Key key, @required this.newUser}) : super(key: key);
+  SignUpName(this.newUser);
 
   @override
   _NameState createState() => _NameState();
@@ -23,12 +24,12 @@ class _NameState extends State<SignUpName> {
     if (name.isNotEmpty && name.length > 5) {
       widget.newUser.name = _nameController.text;
 
-      FirebaseAuth().signUp(widget.newUser.email, widget.newUser.password);
+      Authentication().signUp(widget.newUser.email, widget.newUser.password);
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => SignIn(),
         ),
       );
     } else {
@@ -54,7 +55,8 @@ class _NameState extends State<SignUpName> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SignUpPassword()),
+                MaterialPageRoute(
+                    builder: (context) => SignUpPassword(widget.newUser)),
               );
             }),
       ),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/shared/models/user_model.dart';
-import 'package:tela_de_login_beco/views/SignUp/SignUpEmail.dart';
-import 'package:tela_de_login_beco/views/SignUp/SignUpName.dart';
+
+import 'package:beco_passenger/shared/models/user_model.dart';
+import 'package:beco_passenger/views/SignUp/SignUpEmail.dart';
+import 'package:beco_passenger/views/SignUp/SignUpName.dart';
 
 class SignUpPassword extends StatefulWidget {
   final UserModel newUser;
-
-  SignUpPassword({Key key, @required this.newUser}) : super(key: key);
+  SignUpPassword(this.newUser);
 
   @override
   _PasswordState createState() => _PasswordState();
@@ -24,8 +24,7 @@ class _PasswordState extends State<SignUpPassword> {
 
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => SignUpName(newUser: widget.newUser)),
+        MaterialPageRoute(builder: (context) => SignUpName(widget.newUser)),
       );
     } else {
       setState(() {
@@ -51,8 +50,7 @@ class _PasswordState extends State<SignUpPassword> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          SignUpEmail(newUser: widget.newUser)));
+                      builder: (context) => SignUpEmail(widget.newUser)));
             }),
       ),
       body: Stack(
@@ -90,6 +88,7 @@ class _PasswordState extends State<SignUpPassword> {
                       child: TextField(
                         controller: _passwordController,
                         cursorColor: Colors.black,
+                        obscureText: true,
                         decoration:
                             InputDecoration(hintText: "Digite sua senha"),
                         autofocus: true,

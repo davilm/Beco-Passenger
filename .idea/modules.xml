@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/tela_de_login_beco.iml" filepath="$PROJECT_DIR$/tela_de_login_beco.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/tela_de_login_beco_android.iml" filepath="$PROJECT_DIR$/android/tela_de_login_beco_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beco_passenger.iml" filepath="$PROJECT_DIR$/beco_passenger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/beco_passenger_android.iml" filepath="$PROJECT_DIR$/android/beco_passenger_android.iml" />
     </modules>
   </component>
 </project>

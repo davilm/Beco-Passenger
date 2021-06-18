@@ -1,4 +1,4 @@
-package com.example.tela_de_login_beco
+package com.example.beco_passenger
 
 import io.flutter.embedding.android.FlutterActivity
 
