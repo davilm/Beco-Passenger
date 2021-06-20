@@ -6,8 +6,7 @@ class InfoCardAccountWidget extends StatefulWidget {
   final String subTitle;
   final String image;
 
-  InfoCardAccountWidget(this.title, this.subTitle, this.image, {Key key})
-      : super(key: key);
+  InfoCardAccountWidget(this.title, this.subTitle, this.image);
 
   @override
   _InfoCardAccountWidgetState createState() => _InfoCardAccountWidgetState();

@@ -1,13 +1,16 @@
+import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tela_de_login_beco/views/ConfigurationScreen/ConfigurationScreen.dart';
-import '/shared/widgets/ArrowButtonWidget.dart';
-import '/shared/widgets/InfoCardWidget.dart';
 import '/core/core.dart';
-import '/views/HomeScreen/widgets/ChartWidget.dart';
+
+import 'package:beco_passenger/shared/widgets/ArrowButtonWidget.dart';
+import 'package:beco_passenger/shared/widgets/InfoCardWidget.dart';
+import 'package:beco_passenger/views/ConfigurationScreen/ConfigurationScreen.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/ChartWidget.dart';
 
 class DrawerWidget extends StatelessWidget {
-  DrawerWidget({Key key}) : super(key: key);
+  DrawerWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,16 @@ class DrawerWidget extends StatelessWidget {
 
     final String joined = "Entrou";
     final String timeJoined = "6 meses atrás";
+
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      onPrimary: Colors.black87,
+      primary: Color(0xffF5F5F7),
+      minimumSize: Size(10, 10),
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    );
 
     return SafeArea(
       child: Container(
@@ -104,7 +117,13 @@ class DrawerWidget extends StatelessWidget {
                       Expanded(
                         child: SizedBox(),
                       ),
-                      ArrowButtonWidget(() => {}),
+                      ArrowButtonWidget(() => {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => MyTravelsScreen()),
+                            // ),
+                          }),
                     ],
                   ),
                 ),
@@ -138,31 +157,41 @@ class DrawerWidget extends StatelessWidget {
                       color: Color(0xffF5F5F7),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    width: 100,
+                    width: 120,
                     height: 42,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Container(
-                            color: Color(0xfff55F7),
-                            width: 14,
-                            height: 14,
-                            child: Image(
-                              image: AssetImage(AppImages.signoutLight),
+                    child: ElevatedButton(
+                      style: raisedButtonStyle,
+                      onPressed: () => {
+                        FirebaseAuth.instance.signOut(),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChooseSign()),
+                        ),
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Container(
+                              color: Color(0xfff55F7),
+                              width: 14,
+                              height: 14,
+                              child: Image(
+                                image: AssetImage(AppImages.signoutLight),
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          "Sign Out",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff15192C),
+                          Text(
+                            "Sign Out",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff15192C),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

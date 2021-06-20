@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/shared/models/user_model.dart';
-import 'package:tela_de_login_beco/views/SignUp/SignUpCpf.dart';
-import 'package:tela_de_login_beco/views/SignUp/SignUpPassword.dart';
+
+import 'package:beco_passenger/shared/models/user_model.dart';
+import 'package:beco_passenger/views/SignUp/SignUpCpf.dart';
+import 'package:beco_passenger/views/SignUp/SignUpPassword.dart';
 
 class SignUpEmail extends StatefulWidget {
   final UserModel newUser;
 
-  SignUpEmail({Key key, @required this.newUser}) : super(key: key);
+  SignUpEmail(this.newUser);
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -26,7 +27,7 @@ class _SignUpState extends State<SignUpEmail> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SignUpPassword(newUser: widget.newUser),
+          builder: (context) => SignUpPassword(widget.newUser),
         ),
       );
     } else {

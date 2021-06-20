@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/shared/models/user_model.dart';
-import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
-import 'package:tela_de_login_beco/views/SignUp/SignUpEmail.dart';
+import 'package:beco_passenger/shared/models/user_model.dart';
+import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
+import 'package:beco_passenger/views/SignUp/SignUpEmail.dart';
 
 class SignUpCpf extends StatefulWidget {
-  final UserModel newUser;
-
-  SignUpCpf({Key key, @required this.newUser}) : super(key: key);
+  SignUpCpf({Key? key}) : super(key: key);
 
   @override
   _SignUpCpfState createState() => _SignUpCpfState();
 }
 
 class _SignUpCpfState extends State<SignUpCpf> {
-  TextEditingController _cpfController = new TextEditingController();
+  TextEditingController _cpfController = TextEditingController();
   String _errorMessage = "";
 
+  final newUser = new UserModel("", "", "", "", "");
+
   validarCpf() {
-    String cpf = _cpfController.text;
+    print("---- newUser.password ----");
+    print(newUser.password);
+    String cpf = newUser.password;
 
     if (cpf.isNotEmpty && cpf.length == 14 && cpf.contains("-")) {
-      widget.newUser.cpf = _cpfController.text;
+      newUser.cpf = _cpfController.text;
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SignUpEmail(newUser: widget.newUser),
+          builder: (context) => SignUpEmail(newUser),
         ),
       );
     } else {
@@ -37,7 +39,8 @@ class _SignUpCpfState extends State<SignUpCpf> {
 
   @override
   Widget build(BuildContext context) {
-    _cpfController.text = widget.newUser.cpf;
+    _cpfController.text = newUser.cpf;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -61,8 +64,6 @@ class _SignUpCpfState extends State<SignUpCpf> {
             width: double.infinity,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.transparent)),
-
-            //Campo insira cpf
             child: Container(
               width: double.infinity,
               child: SingleChildScrollView(
@@ -83,16 +84,15 @@ class _SignUpCpfState extends State<SignUpCpf> {
                       ),
                     ),
 
-                    //TCampo digitar nome
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
-                      child: TextField(
-                        controller: _cpfController,
-                        cursorColor: Colors.black,
+                      child: TextFormField(
+                        key: ValueKey('Password'),
                         decoration: InputDecoration(
                           hintText: "000-000-000-00",
+                          labelText: 'CPF',
                         ),
-                        autofocus: true,
+                        onChanged: (value) => newUser.password = value,
                       ),
                     ),
 

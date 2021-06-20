@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tela_de_login_beco">
+    package="com.example.beco_passenger">
    <application
-        android:label="tela_de_login_beco"
+        android:label="beco_passenger"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

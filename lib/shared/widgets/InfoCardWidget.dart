@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '/core/app_text_styles.dart';
+
+import 'package:beco_passenger/core/app_text_styles.dart';
 
 class InfoCardWidget extends StatefulWidget {
   final String title;
   final String image;
 
-  InfoCardWidget(this.title, this.image, {Key key}) : super(key: key);
+  InfoCardWidget(this.title, this.image);
 
   @override
   _InfoCardWidgetState createState() => _InfoCardWidgetState();

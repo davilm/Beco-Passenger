@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/views/HomeScreen/widgets/CreateRouteWidget.dart';
-import 'package:tela_de_login_beco/views/HomeScreen/widgets/DrawerWidget.dart';
-import 'package:tela_de_login_beco/views/HomeScreen/widgets/WorkWidget.dart';
+
+import 'package:beco_passenger/views/HomeScreen/widgets/CreateRouteWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/DrawerWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/WorkWidget.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

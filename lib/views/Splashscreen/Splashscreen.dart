@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
+import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
 import 'dart:async';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/shared/models/user_model.dart';
-import 'package:tela_de_login_beco/views/SignIn/SignIn.dart';
-import '../SignUp/SignUpCpf.dart';
+
+import 'package:beco_passenger/views/SignIn/SignIn.dart';
+import 'package:beco_passenger/views/SignUp/SignUpCpf.dart';
 
 class ChooseSign extends StatefulWidget {
   @override
@@ -12,7 +12,6 @@ class _LoginPageState extends State<ChooseSign> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    final newUser = new UserModel(null, null, null, null, null);
 
     return Scaffold(
       body: Container(
@@ -20,7 +19,7 @@ class _LoginPageState extends State<ChooseSign> {
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("img/Login.jpeg"),
+            image: AssetImage("assets/images/Login.jpeg"),
             fit: BoxFit.fitHeight,
             colorFilter: ColorFilter.mode(Colors.black26, BlendMode.darken),
           ),
@@ -52,20 +51,27 @@ class _LoginPageState extends State<ChooseSign> {
               child: Container(
                 height: 38,
                 width: MediaQuery.of(context).size.width / 1.2,
-                child: RaisedButton(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.black),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                  ),
                   child: Text(
                     "Cadastrar",
                     style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignUpCpf(newUser: newUser)));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUpCpf()));
                   },
                 ),
               ),
@@ -79,14 +85,22 @@ class _LoginPageState extends State<ChooseSign> {
                 decoration: BoxDecoration(
                     border: Border.all(width: 2, color: Colors.white),
                     borderRadius: BorderRadius.circular(50)),
-                child: RaisedButton(
-                  color: Colors.transparent,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.transparent),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                  ),
                   child: Text(
                     "Entrar",
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => SignIn()));

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tela_de_login_beco/api/FirebaseAuth.dart';
-import 'package:tela_de_login_beco/views/ChooseSign/ChooseSign.dart';
+
+import 'package:beco_passenger/api/Authentication.dart';
+import 'package:beco_passenger/shared/models/user_model.dart';
+import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
+import 'package:beco_passenger/views/HomeScreen/HomeScreen.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -8,8 +11,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+  final UserModel _authData = UserModel("", "", "", "", "");
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +44,31 @@ class _SignInState extends State<SignIn> {
               Container(
                 padding: EdgeInsets.only(top: 50),
                 width: MediaQuery.of(context).size.width / 1.09,
-                child: TextField(
-                  controller: _emailController,
-                  cursorColor: Colors.black,
+                child: TextFormField(
+                  key: ValueKey('Email'),
                   decoration: InputDecoration(
-                    hintText: "E-mail",
+                    labelText: 'Email',
                   ),
+                  onChanged: (value) => _authData.email = value,
                 ),
               ),
 
               Container(
                 padding: EdgeInsets.only(top: 30),
                 width: MediaQuery.of(context).size.width / 1.09,
-                child: TextField(
-                  controller: _passwordController,
-                  cursorColor: Colors.black,
+                child: TextFormField(
+                  key: ValueKey('Password'),
+                  obscureText: true,
                   decoration: InputDecoration(
-                    hintText: "Senha",
+                    labelText: 'Senha',
                   ),
+                  onChanged: (value) => _authData.password = value,
+                  validator: (value) {
+                    if (value == null || value.trim().length < 6) {
+                      return 'Nome deve ter no mínimo 6 caracteres.';
+                    }
+                    return null;
+                  },
                 ),
               ),
 
@@ -83,17 +92,27 @@ class _SignInState extends State<SignIn> {
                   decoration: BoxDecoration(),
                   height: 38,
                   width: MediaQuery.of(context).size.width / 1.09,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                    ),
                     child: Text(
                       "Entrar",
                       style: TextStyle(color: Colors.white),
                     ),
-                    color: Colors.black,
                     onPressed: () {
-                      FirebaseAuth().signIn(
-                          _emailController.text, _passwordController.text);
+                      Authentication()
+                          .signIn(_authData.email, _authData.password);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()));
                     },
                   ),
                 ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ArrowButtonWidget extends StatefulWidget {
-  final Function func;
+  final VoidCallback func;
 
-  ArrowButtonWidget(this.func, {Key key}) : super(key: key);
+  ArrowButtonWidget(this.func);
 
   @override
   _ArrowButtonWidgetState createState() => _ArrowButtonWidgetState();
