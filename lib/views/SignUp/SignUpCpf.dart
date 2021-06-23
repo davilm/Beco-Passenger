@@ -17,10 +17,7 @@ class _SignUpCpfState extends State<SignUpCpf> {
   final newUser = new UserModel("", "", "", "", "");
 
   validarCpf() {
-    print("---- newUser.password ----");
-    print(newUser.password);
-    String cpf = newUser.password;
-
+    String cpf = newUser.cpf;
     if (cpf.isNotEmpty && cpf.length == 14 && cpf.contains("-")) {
       newUser.cpf = _cpfController.text;
 
@@ -87,12 +84,12 @@ class _SignUpCpfState extends State<SignUpCpf> {
                     Container(
                       width: MediaQuery.of(context).size.width / 1.09,
                       child: TextFormField(
-                        key: ValueKey('Password'),
+                        key: ValueKey('Cpf'),
                         decoration: InputDecoration(
                           hintText: "000-000-000-00",
                           labelText: 'CPF',
                         ),
-                        onChanged: (value) => newUser.password = value,
+                        onChanged: (value) => newUser.cpf = value,
                       ),
                     ),
 
