@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class MessageBubble extends StatefulWidget {
   final String message;
   final String userImage;
-  final String time;
+  final Timestamp time;
   final bool belongsToMe;
   final Key key;
 
@@ -23,6 +25,9 @@ class MessageBubble extends StatefulWidget {
 class _MessageBubbleState extends State<MessageBubble> {
   @override
   Widget build(BuildContext context) {
+    final DateTime dateTime = widget.time.toDate();
+    var formattedDate = DateFormat('hh:mm a').format(dateTime);
+
     return Stack(
       children: [
         Padding(
@@ -75,7 +80,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    widget.time,
+                    formattedDate,
                     style: GoogleFonts.montserrat(
                       color:
                           widget.belongsToMe ? Colors.white : Color(0xff92959E),
