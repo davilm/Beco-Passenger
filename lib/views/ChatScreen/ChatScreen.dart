@@ -1,5 +1,6 @@
 import 'package:beco_passenger/core/core.dart';
 import 'package:beco_passenger/views/ChatScreen/widgets/MessageBubble.dart';
+import 'package:beco_passenger/views/ChatScreen/widgets/Messages.dart';
 import 'package:beco_passenger/views/ChatScreen/widgets/NewMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
+      // resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(left: widthMargin, top: heightMargin),
@@ -55,21 +57,18 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.blue,
                     ),
                     SizedBox(height: 30),
-                    MessageBubble(
-                      "Cheguei!",
-                      "https://randomuser.me/api/portraits/women/95.jpg",
-                      "15:31",
-                      false,
-                      ValueKey(""),
+                    SingleChildScrollView(
+                      physics: ScrollPhysics(),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            height: MediaQuery.of(context).size.height / 1.7,
+                            child: Messages(),
+                          ),
+                          NewMessage()
+                        ],
+                      ),
                     ),
-                    MessageBubble(
-                      "Estou descendo!",
-                      "",
-                      "15:32",
-                      true,
-                      ValueKey(""),
-                    ),
-                    NewMessage(),
                   ],
                 ),
               ),
