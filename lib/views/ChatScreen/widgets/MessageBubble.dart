@@ -12,9 +12,9 @@ class MessageBubble extends StatefulWidget {
     this.message,
     this.userImage,
     this.time,
-    this.belongsToMe,
-    this.key,
-  ) : super(key: key);
+    this.belongsToMe, {
+    required this.key,
+  }) : super(key: key);
 
   @override
   _MessageBubbleState createState() => _MessageBubbleState();
