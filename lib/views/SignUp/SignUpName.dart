@@ -24,7 +24,12 @@ class _NameState extends State<SignUpName> {
     if (name.isNotEmpty && name.length > 5) {
       widget.newUser.name = _nameController.text;
 
-      Authentication().signUp(widget.newUser.email, widget.newUser.password);
+      Authentication().signUp(
+        widget.newUser.email,
+        widget.newUser.name,
+        widget.newUser.cpf,
+        widget.newUser.password,
+      );
 
       Navigator.push(
         context,
