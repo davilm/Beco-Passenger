@@ -15,7 +15,6 @@ class _MessagesState extends State<Messages> {
 
   @override
   Widget build(BuildContext context) {
-    // return Text("deu certo");
     return Container(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -28,7 +27,6 @@ class _MessagesState extends State<Messages> {
               child: CircularProgressIndicator(),
             );
           }
-          print("Saiu do if222222");
           final chatDocs = snapshot.data!.docs;
           return ListView.builder(
             reverse: true,

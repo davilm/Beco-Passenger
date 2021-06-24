@@ -41,7 +41,7 @@ class _NewMessageState extends State<NewMessage> {
       width: MediaQuery.of(context).size.width / 1.38,
       height: 50,
       decoration: BoxDecoration(
-        color: Color(0xffF5F5F7),
+        color: Color(0xffF4F4F7),
         // color: Colors.blueGrey,
         borderRadius: BorderRadius.circular(10),
       ),

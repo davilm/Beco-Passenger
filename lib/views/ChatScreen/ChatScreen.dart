@@ -28,22 +28,31 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.all(20),
+          child: IconButton(
+            onPressed: () => {
+              Navigator.pop(context),
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: widthMargin, top: heightMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.only(left: widthMargin),
+          child: ListView(
+            padding: EdgeInsets.only(
+              bottom: 10,
+            ),
             children: [
-              Container(
-                child: IconButton(
-                  onPressed: () => {
-                    Navigator.pop(context),
-                  },
-                  icon: Icon(Icons.arrow_back_ios, size: 20),
-                ),
-              ),
-              SizedBox(height: heightMarginTitle),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: widthMargin * 5),
                 child: Column(
@@ -57,18 +66,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.blue,
                     ),
                     SizedBox(height: 30),
-                    SingleChildScrollView(
-                      physics: ScrollPhysics(),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            height: MediaQuery.of(context).size.height / 1.7,
-                            child: Messages(),
-                          ),
-                          NewMessage()
-                        ],
-                      ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      child: Messages(),
                     ),
+                    NewMessage(),
                   ],
                 ),
               ),
