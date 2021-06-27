@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:beco_passenger/getRouteDetails.dart';
+
 import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
 import 'package:beco_passenger/views/HomeScreen/HomeScreen.dart';
 import 'package:beco_passenger/views/Splashscreen/Splashscreen.dart';
@@ -52,7 +54,10 @@ class _AppState extends State<App> {
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, userSnapshot) {
                 if (userSnapshot.hasData) {
-                  return HomeScreen();
+                  // return HomeScreen();
+
+                  final String selectedRoute = "Gwo9mVet7JJMi2Je8yRw";
+                  return GetRouteDetails(selectedRoute);
                 } else {
                   return ChooseSign();
                 }

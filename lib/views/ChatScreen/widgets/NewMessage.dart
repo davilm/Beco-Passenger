@@ -4,7 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class NewMessage extends StatefulWidget {
-  NewMessage({Key? key}) : super(key: key);
+  final String passengerName;
+  final String driverUid;
+  final String passengerUid;
+
+  NewMessage(
+    this.passengerName,
+    this.driverUid,
+    this.passengerUid, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _NewMessageState createState() => _NewMessageState();
@@ -13,9 +22,6 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   String _enteredMessage = '';
-
-  String driverUid = "pNKw0MEwouc2ajzaXeYd";
-  String passengerUid = "JIbVoYwhRGVQs5AaEuOOBDBQU3J2";
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
@@ -31,9 +37,9 @@ class _NewMessageState extends State<NewMessage> {
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
-      'userName': userData['name'],
-      'driverUid': driverUid,
-      'passengerUid': passengerUid,
+      'userName': widget.passengerName,
+      'driverUid': widget.driverUid,
+      'passengerUid': widget.passengerUid,
     });
 
     _enteredMessage = '';

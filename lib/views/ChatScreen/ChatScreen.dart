@@ -7,7 +7,19 @@ import 'package:beco_passenger/views/ChatScreen/widgets/NewMessage.dart';
 
 class ChatScreen extends StatefulWidget {
   final String driverName;
-  ChatScreen(this.driverName, {Key? key}) : super(key: key);
+  final String passengerName;
+  final String driverUid;
+  final String passengerUid;
+  final String imageUrl;
+
+  ChatScreen(
+    this.driverName,
+    this.passengerName,
+    this.driverUid,
+    this.passengerUid,
+    this.imageUrl, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -61,9 +73,17 @@ class _ChatScreenState extends State<ChatScreen> {
                     SizedBox(height: 30),
                     Container(
                       height: MediaQuery.of(context).size.height / 1.5,
-                      child: Messages(),
+                      child: Messages(
+                        widget.driverUid,
+                        widget.passengerUid,
+                        widget.imageUrl,
+                      ),
                     ),
-                    NewMessage(),
+                    NewMessage(
+                      widget.passengerName,
+                      widget.driverUid,
+                      widget.passengerUid,
+                    ),
                   ],
                 ),
               ),
