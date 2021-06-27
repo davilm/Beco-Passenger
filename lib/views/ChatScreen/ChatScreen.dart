@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'package:beco_passenger/core/core.dart';
-import 'package:beco_passenger/views/ChatScreen/widgets/MessageBubble.dart';
+
 import 'package:beco_passenger/views/ChatScreen/widgets/Messages.dart';
 import 'package:beco_passenger/views/ChatScreen/widgets/NewMessage.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key? key}) : super(key: key);
+  final String driverName;
+  ChatScreen(this.driverName, {Key? key}) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -16,14 +17,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final double widthMargin = MediaQuery.of(context).size.width / 40;
-    final double heightMargin = MediaQuery.of(context).size.height / 42;
-    final double heightMarginTitle = MediaQuery.of(context).size.width / 11;
-
-    final String title = "Erick";
-
-    final _controller = TextEditingController();
-
-    final bool belongsToMe = false;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -58,7 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: AppTextStyles.upTitle),
+                    Text(widget.driverName, style: AppTextStyles.upTitle),
                     SizedBox(height: 5),
                     Container(
                       width: 30,
