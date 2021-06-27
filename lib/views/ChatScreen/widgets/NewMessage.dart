@@ -1,9 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class NewMessage extends StatefulWidget {
-  NewMessage({Key? key}) : super(key: key);
+  final String passengerName;
+  final String driverUid;
+  final String passengerUid;
+
+  NewMessage(
+    this.passengerName,
+    this.driverUid,
+    this.passengerUid, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _NewMessageState createState() => _NewMessageState();
@@ -19,7 +29,7 @@ class _NewMessageState extends State<NewMessage> {
     final user = FirebaseAuth.instance.currentUser;
 
     final userData = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('passengers')
         .doc(user!.uid)
         .get();
 
@@ -27,8 +37,9 @@ class _NewMessageState extends State<NewMessage> {
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
-      'userName': userData['name'],
-      // 'userImage': userData['imageUrl'],
+      'userName': widget.passengerName,
+      'driverUid': widget.driverUid,
+      'passengerUid': widget.passengerUid,
     });
 
     _enteredMessage = '';
@@ -41,7 +52,7 @@ class _NewMessageState extends State<NewMessage> {
       width: MediaQuery.of(context).size.width / 1.38,
       height: 50,
       decoration: BoxDecoration(
-        color: Color(0xffF5F5F7),
+        color: Color(0xffF4F4F7),
         // color: Colors.blueGrey,
         borderRadius: BorderRadius.circular(10),
       ),

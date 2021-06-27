@@ -1,13 +1,16 @@
-import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import '/core/core.dart';
 
+import 'package:beco_passenger/api/Authentication.dart';
+
+import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/ChartWidget.dart';
+import 'package:beco_passenger/views/ConfigurationScreen/ConfigurationScreen.dart';
+
 import 'package:beco_passenger/shared/widgets/ArrowButtonWidget.dart';
 import 'package:beco_passenger/shared/widgets/InfoCardWidget.dart';
-import 'package:beco_passenger/views/ConfigurationScreen/ConfigurationScreen.dart';
-import 'package:beco_passenger/views/HomeScreen/widgets/ChartWidget.dart';
 
 class DrawerWidget extends StatelessWidget {
   DrawerWidget({Key? key}) : super(key: key);
@@ -49,8 +52,7 @@ class DrawerWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  onPressed: () => {},
-                  // onPressed: () => {Navigator.pop(context)},
+                  onPressed: () => {Navigator.pop(context)},
                   icon: Icon(Icons.arrow_back_ios, size: 20),
                 ),
                 SizedBox(height: heightMarginTitle),
@@ -161,12 +163,14 @@ class DrawerWidget extends StatelessWidget {
                     height: 42,
                     child: ElevatedButton(
                       style: raisedButtonStyle,
-                      onPressed: () => {
-                        FirebaseAuth.instance.signOut(),
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ChooseSign()),
-                        ),
+                      onPressed: () async {
+                        String sign = await Authentication().signOut();
+                        if (sign == "Sign Out") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChooseSign()));
+                        } else {}
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

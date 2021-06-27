@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:beco_passenger/api/Authentication.dart';
@@ -6,6 +7,8 @@ import 'package:beco_passenger/views/ChooseSign/ChooseSign.dart';
 import 'package:beco_passenger/views/HomeScreen/HomeScreen.dart';
 
 class SignIn extends StatefulWidget {
+  SignIn({Key? key}) : super(key: key);
+
   @override
   _SignInState createState() => _SignInState();
 }
@@ -106,13 +109,23 @@ class _SignInState extends State<SignIn> {
                       "Entrar",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      Authentication()
+                    onPressed: () async {
+                      String sign = await Authentication()
                           .signIn(_authData.email, _authData.password);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreen()));
+                      if (sign == "Signed in") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(sign),
+                            duration: Duration(seconds: 5),
+                            backgroundColor: Theme.of(context).errorColor,
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
