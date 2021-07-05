@@ -1,8 +1,10 @@
+import 'package:beco_passenger/api/FirestoreRoutes.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/MyMapWidget.dart';
+import 'package:beco_passenger/views/TripScreen/TripScreen.dart';
 import 'package:flutter/material.dart';
 
-import 'package:beco_passenger/views/HomeScreen/widgets/CreateRouteWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/DrawerWidget.dart';
-import 'package:beco_passenger/views/HomeScreen/widgets/WorkWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -12,11 +14,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final String selectedRoute = "Gwo9mVet7JJMi2Je8yRw";
+
+  int myFlag = 0;
+
+  String routeId = 'void';
+
+  errorSnack(message, color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: color,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        toolbarHeight: 80,
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: IconThemeData(
@@ -25,40 +46,90 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: DrawerWidget(),
       body: Center(
-        child: Container(
-          height: 700,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  "https://media.istockphoto.com/vectors/vector-city-map-vector-id826280312?k=6&m=826280312&s=170667a&w=0&h=Sa_vE8LCTr9ze5cLsmotHB2vrHHf6J0N6W4ADWDCq7c="),
-              fit: BoxFit.fitHeight,
+        child: Column(
+          children: [
+            Container(
+              height: 400,
+              child: MyMapWidget(),
             ),
-          ),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Positioned(
-                bottom: MediaQuery.of(context).size.height / 5.2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xff36B194),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(18),
-                    ),
-                  ),
-                  height: 200,
-                  child: WorkWidget(),
+            Container(
+              height: MediaQuery.of(context).size.height / 2.8,
+              child: Center(
+                child: Column(
+                  children: [
+                    if (myFlag == 0)
+                      SetDestination(
+                        onChoosedRoute: () => {
+                          setState(() {
+                            myFlag++;
+                          }),
+                        },
+                      ),
+                    if (myFlag == 1)
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 140,
+                        child: TripScreen(
+                          pickRouteId: (value) {
+                            setState(() {
+                              routeId = value;
+                              print(routeId);
+                            });
+                          },
+                        ),
+                      ),
+                    if (myFlag == 1)
+                      Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            "Definir Destino",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          onPressed: () async {
+                            String response;
+                            response = await addMeToRoute(routeId);
+                            if (response == 'esgotado') {
+                              setState(() {
+                                myFlag = 0;
+                              });
+                              errorSnack(
+                                'Vagas esgotadas, escolha outro motorista',
+                                Theme.of(context).errorColor,
+                              );
+                            } else if (response == 'sucesso') {
+                              setState(() {
+                                myFlag = 0;
+                              });
+                              errorSnack(
+                                'Viagem marcada com sucesso!',
+                                Colors.green,
+                              );
+                            } else {
+                              errorSnack(
+                                response,
+                                Theme.of(context).errorColor,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                  ],
                 ),
               ),
-              Positioned(
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 2.8,
-                  color: Colors.blue,
-                  child: CreateRouteWidget(),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
