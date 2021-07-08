@@ -1,10 +1,13 @@
-import 'package:beco_passenger/api/FirestoreRoutes.dart';
-import 'package:beco_passenger/views/HomeScreen/widgets/MyMapWidget.dart';
-import 'package:beco_passenger/views/TripScreen/TripScreen.dart';
+import 'package:beco_passenger/core/core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
+import 'package:beco_passenger/api/FirestoreRoutes.dart';
+
 import 'package:beco_passenger/views/HomeScreen/widgets/DrawerWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/MyMapWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
+import 'package:beco_passenger/views/TripInfoScreen/TripInfoScreen.dart';
+import 'package:beco_passenger/views/TripScreen/TripScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -14,8 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final String selectedRoute = "Gwo9mVet7JJMi2Je8yRw";
-
   int myFlag = 0;
 
   String routeId = 'void';
@@ -34,6 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double widthMargin = MediaQuery.of(context).size.width / 40;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -79,50 +82,58 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     if (myFlag == 1)
-                      Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: widthMargin * 5,
+                          right: widthMargin * 5,
+                          bottom: 20,
+                        ),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xff15192C),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                "Definir Destino",
+                                style: AppTextStyles.montserrat14SemiboldWhite,
+                              ),
+                              onPressed: () async {
+                                String response;
+                                response = await addMeToRoute(routeId);
+                                if (response == 'esgotado') {
+                                  setState(() {
+                                    myFlag = 0;
+                                  });
+                                  errorSnack(
+                                    'Vagas esgotadas, escolha outro motorista',
+                                    Theme.of(context).errorColor,
+                                  );
+                                } else if (response == 'sucesso') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TripInfoScreen(routeId)));
+                                  errorSnack(
+                                    'Viagem marcada com sucesso!',
+                                    Colors.green,
+                                  );
+                                } else {
+                                  errorSnack(
+                                    response,
+                                    Theme.of(context).errorColor,
+                                  );
+                                }
+                              },
                             ),
                           ),
-                          child: Text(
-                            "Definir Destino",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          onPressed: () async {
-                            String response;
-                            response = await addMeToRoute(routeId);
-                            if (response == 'esgotado') {
-                              setState(() {
-                                myFlag = 0;
-                              });
-                              errorSnack(
-                                'Vagas esgotadas, escolha outro motorista',
-                                Theme.of(context).errorColor,
-                              );
-                            } else if (response == 'sucesso') {
-                              setState(() {
-                                myFlag = 0;
-                              });
-                              errorSnack(
-                                'Viagem marcada com sucesso!',
-                                Colors.green,
-                              );
-                            } else {
-                              errorSnack(
-                                response,
-                                Theme.of(context).errorColor,
-                              );
-                            }
-                          },
                         ),
                       ),
                   ],
