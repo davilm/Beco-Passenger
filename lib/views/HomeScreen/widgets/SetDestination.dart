@@ -11,7 +11,8 @@ class SetDestination extends StatefulWidget {
 }
 
 class _SetDestinationState extends State<SetDestination> {
-  String cityName = "Vou viajar para ...";
+  String startTrip = "De";
+  String endTrip = "Para";
 
   List cityList = [
     'Fortaleza',
@@ -29,9 +30,6 @@ class _SetDestinationState extends State<SetDestination> {
 
     final generalWidth = MediaQuery.of(context).size.width;
     final double fieldButtonHeight = 60;
-    final String selectedRoute = "Gwo9mVet7JJMi2Je8yRw";
-
-    final double widthMarginBody = MediaQuery.of(context).size.width / 8;
 
     return Column(
       children: [
@@ -63,15 +61,33 @@ class _SetDestinationState extends State<SetDestination> {
                     size: 30.0,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Fortaleza",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xff92959E),
-                      fontWeight: FontWeight.w600,
+                Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: DropdownButton(
+                    underline: Container(color: Colors.transparent),
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.transparent,
                     ),
+                    items: cityList.map((city) {
+                      return DropdownMenuItem(
+                        value: city,
+                        child: Text(city),
+                      );
+                    }).toList(),
+                    hint: Text(
+                      startTrip,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xff92959E),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    onChanged: (city) {
+                      setState(() {
+                        startTrip = city.toString();
+                      });
+                    },
                   ),
                 ),
               ],
@@ -121,7 +137,7 @@ class _SetDestinationState extends State<SetDestination> {
                       );
                     }).toList(),
                     hint: Text(
-                      cityName,
+                      endTrip,
                       style: TextStyle(
                         fontSize: 16,
                         color: Color(0xff92959E),
@@ -130,7 +146,7 @@ class _SetDestinationState extends State<SetDestination> {
                     ),
                     onChanged: (city) {
                       setState(() {
-                        cityName = city.toString();
+                        endTrip = city.toString();
                       });
                     },
                   ),
@@ -162,7 +178,7 @@ class _SetDestinationState extends State<SetDestination> {
                   style: AppTextStyles.montserrat14SemiboldWhite,
                 ),
                 onPressed: () {
-                  widget.onChoosedRoute();
+                  widget.onChoosedRoute(startTrip, endTrip);
                 },
               ),
             ),
