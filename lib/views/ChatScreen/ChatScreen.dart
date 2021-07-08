@@ -34,61 +34,55 @@ class _ChatScreenState extends State<ChatScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.all(20),
-          child: IconButton(
-            onPressed: () => {
-              Navigator.pop(context),
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.black,
-            ),
+        leading: IconButton(
+          onPressed: () => {
+            Navigator.pop(context),
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,
           ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(left: widthMargin),
-          child: ListView(
-            padding: EdgeInsets.only(
-              bottom: 10,
-            ),
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: widthMargin * 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.driverName, style: AppTextStyles.upTitle),
-                    SizedBox(height: 5),
-                    Container(
-                      width: 30,
-                      height: 2,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(height: 30),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: Messages(
-                        widget.driverUid,
-                        widget.passengerUid,
-                        widget.imageUrl,
-                      ),
-                    ),
-                    NewMessage(
-                      widget.passengerName,
+        child: ListView(
+          padding: EdgeInsets.only(
+            bottom: 10,
+          ),
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: widthMargin * 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.driverName, style: AppTextStyles.upTitle),
+                  SizedBox(height: 5),
+                  Container(
+                    width: 30,
+                    height: 2,
+                    color: Colors.blue,
+                  ),
+                  SizedBox(height: 30),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    child: Messages(
                       widget.driverUid,
                       widget.passengerUid,
+                      widget.imageUrl,
                     ),
-                  ],
-                ),
+                  ),
+                  NewMessage(
+                    widget.passengerName,
+                    widget.driverUid,
+                    widget.passengerUid,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
