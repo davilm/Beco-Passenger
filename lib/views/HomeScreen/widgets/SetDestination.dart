@@ -1,190 +1,101 @@
 import 'package:beco_passenger/core/core.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/TextFieldWidget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class SetDestination extends StatefulWidget {
+class SetDestination extends StatelessWidget {
   final Function onChoosedRoute;
 
-  SetDestination({required this.onChoosedRoute, Key? key}) : super(key: key);
+  SetDestination({
+    required this.onChoosedRoute,
+    Key? key,
+  });
 
-  @override
-  State<SetDestination> createState() => _SetDestinationState();
-}
+  CollectionReference routes = FirebaseFirestore.instance.collection('routes');
 
-class _SetDestinationState extends State<SetDestination> {
   String startTrip = "De";
   String endTrip = "Para";
-
-  List cityList = [
-    'Fortaleza',
-    'Quixeramobim',
-    'Quixadá',
-    'Canindé',
-    'Guaramiranga',
-    'Eusébio',
-    'Caucaia',
-  ];
 
   @override
   Widget build(BuildContext context) {
     final double widthMargin = MediaQuery.of(context).size.width / 40;
 
-    final generalWidth = MediaQuery.of(context).size.width;
-    final double fieldButtonHeight = 60;
+    return Container(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: routes.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            left: widthMargin * 5,
-            right: widthMargin * 5,
-            bottom: 10,
-          ),
-          child: Container(
-            height: fieldButtonHeight,
-            width: generalWidth,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Color(0xffD0D2DA),
-                width: 1,
-              ),
-              color: Colors.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 15),
-                  child: Icon(
-                    Icons.gps_fixed,
-                    color: Color(0xff92959E),
-                    size: 30.0,
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: DropdownButton(
-                    underline: Container(color: Colors.transparent),
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.transparent,
-                    ),
-                    items: cityList.map((city) {
-                      return DropdownMenuItem(
-                        value: city,
-                        child: Text(city),
-                      );
-                    }).toList(),
-                    hint: Text(
-                      startTrip,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff92959E),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    onChanged: (city) {
-                      setState(() {
-                        startTrip = city.toString();
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            left: widthMargin * 5,
-            right: widthMargin * 5,
-            bottom: 20,
-          ),
-          child: Container(
-            height: fieldButtonHeight,
-            width: generalWidth,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Color(0xffD0D2DA),
-                width: 1,
-              ),
-              color: Colors.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 15),
-                  child: Icon(
-                    Icons.place,
-                    color: Color(0xff92959E),
-                    size: 30.0,
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: DropdownButton(
-                    underline: Container(color: Colors.transparent),
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.transparent,
-                    ),
-                    items: cityList.map((city) {
-                      return DropdownMenuItem(
-                        value: city,
-                        child: Text(city),
-                      );
-                    }).toList(),
-                    hint: Text(
-                      endTrip,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff92959E),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    onChanged: (city) {
-                      setState(() {
-                        endTrip = city.toString();
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            left: widthMargin * 5,
-            right: widthMargin * 5,
-            bottom: 20,
-          ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xff15192C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  "Definir Destino",
-                  style: AppTextStyles.montserrat14SemiboldWhite,
-                ),
-                onPressed: () {
-                  widget.onChoosedRoute(startTrip, endTrip);
+          if (snapshot.hasError) {
+            return Center(child: Text("Something went wrong $snapshot.error"));
+          }
+
+          final routeDocs = snapshot.data!.docs;
+
+          List citiesList = [];
+
+          routeDocs.forEach((doc) {
+            citiesList.add(doc["startTrip"]);
+            citiesList.add(doc["endTrip"]);
+
+            citiesList = citiesList.toSet().toList();
+          });
+
+          return Column(
+            children: [
+              TextFieldWidget(
+                Icons.gps_fixed,
+                startTrip,
+                citiesList,
+                onChoosedRoute: (city) => {
+                  this.startTrip = city,
                 },
               ),
-            ),
-          ),
-        ),
-      ],
+              TextFieldWidget(
+                Icons.place,
+                endTrip,
+                citiesList,
+                onChoosedRoute: (city) => {
+                  this.endTrip = city,
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: widthMargin * 5,
+                  right: widthMargin * 5,
+                  bottom: 20,
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff15192C),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        "Definir Destino",
+                        style: AppTextStyles.montserrat14SemiboldWhite,
+                      ),
+                      onPressed: () {
+                        onChoosedRoute(startTrip, endTrip);
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
