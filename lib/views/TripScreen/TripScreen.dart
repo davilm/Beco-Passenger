@@ -1,7 +1,7 @@
-// import 'package:beco_passenger/views/TripScreen/widgets/RouteCard.dart';
-import 'package:beco_passenger/views/TripScreen/widgets/RouteCard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:beco_passenger/views/TripScreen/widgets/RouteCard.dart';
 
 class TripScreen extends StatefulWidget {
   final Function(String) pickRouteId;
@@ -19,7 +19,8 @@ class _TripScreenState extends State<TripScreen> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('routes')
-            .where("endTrip", isEqualTo: "Quixeramobim")
+            // .where("endTrip", isEqualTo: "Quixeramobim")
+            .where("endTrip")
             .orderBy('date')
             .snapshots(),
         builder: (context, snapshot) {
