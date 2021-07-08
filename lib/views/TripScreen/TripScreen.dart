@@ -7,11 +7,15 @@ class TripScreen extends StatefulWidget {
   final String startTrip;
   final String endTrip;
   final Function(String) pickRouteId;
+  final Function(Timestamp) pickDate;
+  final Function(String) pickTravelPrice;
 
   TripScreen(
     this.startTrip,
     this.endTrip, {
     required this.pickRouteId,
+    required this.pickDate,
+    required this.pickTravelPrice,
     Key? key,
   }) : super(key: key);
 
@@ -36,6 +40,7 @@ class _TripScreenState extends State<TripScreen> {
               child: CircularProgressIndicator(),
             );
           }
+
           if (snapshot.hasError) {
             return Center(child: Text("Something went wrong $snapshot.error"));
           }
@@ -53,6 +58,8 @@ class _TripScreenState extends State<TripScreen> {
               routeDocs[index]['driverName'],
               routeDocs[index].id,
               pickRouteId: widget.pickRouteId,
+              pickDate: widget.pickDate,
+              pickTravelPrice: widget.pickTravelPrice,
               key: ValueKey(routeDocs[index].id),
             ),
           );

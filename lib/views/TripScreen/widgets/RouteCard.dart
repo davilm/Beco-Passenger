@@ -11,6 +11,8 @@ class RouteCard extends StatefulWidget {
   final String driverName;
   final String routeId;
   final Function(String) pickRouteId;
+  final Function(Timestamp) pickDate;
+  final Function(String) pickTravelPrice;
 
   RouteCard(
     this.startTrip,
@@ -21,6 +23,8 @@ class RouteCard extends StatefulWidget {
     this.driverName,
     this.routeId, {
     required this.pickRouteId,
+    required this.pickDate,
+    required this.pickTravelPrice,
     Key? key,
   }) : super(key: key);
 
@@ -42,7 +46,11 @@ class _RouteCardState extends State<RouteCard> {
             color: Color(0xff551FFF),
           ),
           child: TextButton(
-            onPressed: () => widget.pickRouteId(widget.routeId),
+            onPressed: () => {
+              widget.pickRouteId(widget.routeId),
+              widget.pickDate(widget.date),
+              widget.pickTravelPrice(widget.travelPrice),
+            },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

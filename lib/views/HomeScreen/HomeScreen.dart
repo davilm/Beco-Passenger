@@ -1,11 +1,12 @@
 import 'package:beco_passenger/core/core.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:beco_passenger/api/FirestoreRoutes.dart';
 
 import 'package:beco_passenger/views/HomeScreen/widgets/DrawerWidget.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/MyMapWidget.dart';
-import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
 import 'package:beco_passenger/views/TripInfoScreen/TripInfoScreen.dart';
 import 'package:beco_passenger/views/TripScreen/TripScreen.dart';
 
@@ -21,8 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String startTrip = "";
   String endTrip = "";
+  late Timestamp date;
 
-  String routeId = 'void';
+  // var formattedDate = DateFormat('hh:mm a').format(date);
+
+  String price = "";
+
+  String routeId = "void";
 
   errorSnack(message, color) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -42,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: Colors.transparent,
@@ -80,16 +87,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: TripScreen(
                           startTrip,
                           endTrip,
-                          pickRouteId: (value) {
+                          pickRouteId: (routeId) {
                             setState(() {
-                              if (routeId == "void") {
-                                routeId = value;
+                              if (routeId != "void") {
+                                this.routeId = routeId;
                               } else {
                                 setState(() {
                                   myFlag = 0;
                                 });
                               }
                               print(routeId);
+                            });
+                          },
+                          pickDate: (date) {
+                            setState(() {
+                              this.date = date;
+                              print(date);
+                            });
+                          },
+                          pickTravelPrice: (price) {
+                            setState(() {
+                              this.price = price;
+                              print(price);
                             });
                           },
                         ),
