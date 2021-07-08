@@ -44,6 +44,30 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
+  static final TextStyle montserrat10RegularGrey = GoogleFonts.montserrat(
+    color: Color(0xff92959E),
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final TextStyle montserrat10SemiboldGrey = GoogleFonts.montserrat(
+    color: Color(0xff92959E),
+    fontSize: 10,
+    fontWeight: FontWeight.w600,
+  );
+
+  static final TextStyle montserrat13BoldWhite = GoogleFonts.montserrat(
+    color: Color(0xffffffff),
+    fontSize: 13,
+    fontWeight: FontWeight.w700,
+  );
+
+  static final TextStyle montserrat14SemiboldWhite = GoogleFonts.montserrat(
+    color: Color(0xffffffff),
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
+
   static final TextStyle beVietnam12BoldWhite = GoogleFonts.beVietnam(
     color: Color(0xffffffff),
     fontSize: 12,
