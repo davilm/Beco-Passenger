@@ -8,6 +8,7 @@ class RouteCard extends StatefulWidget {
   final Timestamp date;
   final String travelPrice;
   final String driverImageUrl;
+  final String driverName;
   final String routeId;
   final Function(String) pickRouteId;
 
@@ -17,6 +18,7 @@ class RouteCard extends StatefulWidget {
     this.date,
     this.travelPrice,
     this.driverImageUrl,
+    this.driverName,
     this.routeId, {
     required this.pickRouteId,
     Key? key,
@@ -39,32 +41,31 @@ class _RouteCardState extends State<RouteCard> {
             borderRadius: BorderRadius.circular(20),
             color: Color(0xff551FFF),
           ),
-          child: ElevatedButton(
+          child: TextButton(
             onPressed: () => widget.pickRouteId(widget.routeId),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Erick',
+                      widget.driverName,
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     ),
                     SizedBox(height: 6),
                     Text(
-                      'R\$ 105',
+                      "R\$ ${widget.travelPrice}",
                       style: TextStyle(fontSize: 10, color: Colors.white),
                     ),
                   ],
                 ),
-                SizedBox(width: 15),
                 CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    "https://randomuser.me/api/portraits/women/32.jpg",
+                    widget.driverImageUrl,
                   ),
                 ),
               ],

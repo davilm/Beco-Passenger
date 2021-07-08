@@ -4,9 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:beco_passenger/views/TripScreen/widgets/RouteCard.dart';
 
 class TripScreen extends StatefulWidget {
+  final String startTrip;
+  final String endTrip;
   final Function(String) pickRouteId;
 
-  TripScreen({required this.pickRouteId, Key? key}) : super(key: key);
+  TripScreen(
+    this.startTrip,
+    this.endTrip, {
+    required this.pickRouteId,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _TripScreenState createState() => _TripScreenState();
@@ -19,8 +26,8 @@ class _TripScreenState extends State<TripScreen> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('routes')
-            // .where("endTrip", isEqualTo: "Quixeramobim")
-            .where("endTrip")
+            .where("startTrip", isEqualTo: widget.startTrip)
+            .where("endTrip", isEqualTo: widget.endTrip)
             .orderBy('date')
             .snapshots(),
         builder: (context, snapshot) {
@@ -43,6 +50,7 @@ class _TripScreenState extends State<TripScreen> {
               routeDocs[index]['date'],
               routeDocs[index]['price'].toString(),
               routeDocs[index]['driverImageUrl'],
+              routeDocs[index]['driverName'],
               routeDocs[index].id,
               pickRouteId: widget.pickRouteId,
               key: ValueKey(routeDocs[index].id),

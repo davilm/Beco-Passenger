@@ -19,6 +19,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int myFlag = 0;
 
+  String startTrip = "";
+  String endTrip = "";
+
   String routeId = 'void';
 
   errorSnack(message, color) {
@@ -62,7 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     if (myFlag == 0)
                       SetDestination(
-                        onChoosedRoute: () => {
+                        onChoosedRoute: (startTrip, endTrip) => {
+                          this.startTrip = startTrip,
+                          this.endTrip = endTrip,
                           setState(() {
                             myFlag++;
                           }),
@@ -73,9 +78,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: MediaQuery.of(context).size.width / 1.2,
                         height: 140,
                         child: TripScreen(
+                          startTrip,
+                          endTrip,
                           pickRouteId: (value) {
                             setState(() {
-                              routeId = value;
+                              if (routeId == "void") {
+                                routeId = value;
+                              } else {
+                                setState(() {
+                                  myFlag = 0;
+                                });
+                              }
                               print(routeId);
                             });
                           },
@@ -116,6 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Theme.of(context).errorColor,
                                   );
                                 } else if (response == 'sucesso') {
+                                  setState(() {
+                                    myFlag = 0;
+                                    routeId = 'void';
+                                  });
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -126,6 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Colors.green,
                                   );
                                 } else {
+                                  setState(() {
+                                    myFlag = 0;
+                                  });
                                   errorSnack(
                                     response,
                                     Theme.of(context).errorColor,
