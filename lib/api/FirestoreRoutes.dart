@@ -1,19 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 CollectionReference routes = FirebaseFirestore.instance.collection('routes');
 CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+CollectionReference passengers =
+    FirebaseFirestore.instance.collection('passengers');
 
-String driverUid = "pNKw0MEwouc2ajzaXeYd";
-String passengerUid = "JIbVoYwhRGVQs5AaEuOOBDBQU3J2";
+String imageUrl = 'void';
+String passengerName = 'void';
+String passengerId = 'void';
+String cpf = 'void';
+
+Future<String> _loadCurrentUser() async {
+  final _auth = FirebaseAuth.instance;
+
+  final currentUser = _auth.currentUser;
+
+  return currentUser!.uid;
+}
+
+Future<void> getMyInfo() async {
+  passengerId = await _loadCurrentUser();
+
+  await passengers.doc(passengerId).get().then((value) {
+    passengerName = value["name"];
+    imageUrl = value["imageUrl"];
+    cpf = value["cpf"];
+  });
+}
 
 Future<String> addMeToRoute(routeId) async {
-  List passengersQuantity = await getPassengerList(routeId);
+  List passengersList = await getPassengerList(routeId);
 
-  if (passengersQuantity.length < 4) {
-    passengersQuantity.add({"teste": "deu certo"});
+  await getMyInfo();
+
+  if (passengersList.length < 4) {
+    passengersList.add({
+      "imageUrl": imageUrl,
+      "name": passengerName,
+      "uid": passengerId,
+      "cpf": cpf,
+    });
 
     try {
-      await routes.doc(routeId).update({'passengersList': passengersQuantity});
+      await routes.doc(routeId).update({'passengersList': passengersList});
 
       return 'sucesso';
     } catch (e) {
