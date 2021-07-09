@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String price = "";
 
-  String routeId = "void";
+  String selectedRoute = "void";
 
   errorSnack(message, color) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -90,13 +90,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           pickRouteId: (routeId) {
                             setState(() {
                               if (routeId != "void") {
-                                this.routeId = routeId;
+                                this.selectedRoute = routeId;
                               } else {
                                 setState(() {
                                   myFlag = 0;
                                 });
                               }
-                              print(routeId);
                             });
                           },
                           pickDate: (date) {
@@ -138,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               onPressed: () async {
                                 String response;
-                                response = await addMeToRoute(routeId);
+                                response = await addMeToRoute(selectedRoute);
                                 if (response == 'esgotado') {
                                   setState(() {
                                     myFlag = 0;
@@ -148,10 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Theme.of(context).errorColor,
                                   );
                                 } else if (response == 'sucesso') {
-                                  setState(() {
-                                    myFlag = 0;
-                                    routeId = 'void';
-                                  });
+                                  String routeId = selectedRoute;
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -161,6 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     'Viagem marcada com sucesso!',
                                     Colors.green,
                                   );
+                                  setState(() {
+                                    myFlag = 0;
+                                    selectedRoute = 'void';
+                                  });
                                 } else {
                                   setState(() {
                                     myFlag = 0;

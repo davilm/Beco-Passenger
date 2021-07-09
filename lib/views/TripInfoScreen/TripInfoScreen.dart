@@ -1,13 +1,14 @@
-import 'package:beco_passenger/GetRouteDetails.dart';
 import 'package:flutter/material.dart';
 
 import 'package:beco_passenger/core/core.dart';
 
+import 'package:beco_passenger/GetRouteDetails.dart';
 import 'package:beco_passenger/shared/widgets/TravelDataWidget.dart';
 
 class TripInfoScreen extends StatefulWidget {
-  String routeId;
-  TripInfoScreen(this.routeId, {Key? key}) : super(key: key);
+  final String selectedRoute;
+
+  TripInfoScreen(this.selectedRoute, {Key? key}) : super(key: key);
 
   @override
   _TripInfoScreenState createState() => _TripInfoScreenState();
@@ -55,10 +56,14 @@ class _TripInfoScreenState extends State<TripInfoScreen> {
                 ),
               ),
               onPressed: () => {
+                print("TripInfoScreen"),
+                print("selectedRoute"),
+                print(widget.selectedRoute),
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => GetRouteDetails(widget.routeId)),
+                      builder: (context) =>
+                          GetRouteDetails(widget.selectedRoute)),
                 ),
               },
               child: Padding(
