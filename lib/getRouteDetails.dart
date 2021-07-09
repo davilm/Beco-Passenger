@@ -1,22 +1,19 @@
-import 'package:beco_passenger/views/ChatScreen/ChatScreen.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
+import 'package:beco_passenger/views/ChatScreen/ChatScreen.dart';
 
 class GetRouteDetails extends StatelessWidget {
   final String selectedRoute;
 
-  GetRouteDetails(this.selectedRoute);
+  GetRouteDetails(this.selectedRoute, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     CollectionReference routes =
         FirebaseFirestore.instance.collection('routes');
-
-    CollectionReference passengers =
-        FirebaseFirestore.instance.collection('passengers');
-
-    // final String selectedRoute = "Gwo9mVet7JJMi2Je8yRw";
 
     return FutureBuilder<DocumentSnapshot>(
       future: routes.doc(selectedRoute).get(),
