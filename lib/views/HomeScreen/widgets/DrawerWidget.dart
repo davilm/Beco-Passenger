@@ -19,7 +19,7 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final image = AppImages.faceLight;
 
-    final double heightMarginTitle = MediaQuery.of(context).size.width / 7;
+    final double heightMarginTitle = MediaQuery.of(context).size.width / 5;
     final double widthMargin = MediaQuery.of(context).size.width / 40;
     final double widthMarginBody = MediaQuery.of(context).size.width / 8;
 
@@ -51,10 +51,6 @@ class DrawerWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: () => {Navigator.pop(context)},
-                  icon: Icon(Icons.arrow_back_ios, size: 20),
-                ),
                 SizedBox(height: heightMarginTitle),
                 Row(
                   children: [
@@ -110,7 +106,9 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: widthMarginBody, top: heightMarginTitle),
+                    left: widthMarginBody,
+                    top: heightMarginTitle,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
