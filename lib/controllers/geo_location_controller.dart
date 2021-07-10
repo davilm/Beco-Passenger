@@ -8,11 +8,6 @@ class GeoLocationController {
     bool serviceEnabled;
     LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -20,6 +15,11 @@ class GeoLocationController {
       if (permission == LocationPermission.denied) {
         return Future.error('Location permissions are denied');
       }
+    }
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await Geolocator.openLocationSettings();
     }
 
     if (permission == LocationPermission.deniedForever) {
