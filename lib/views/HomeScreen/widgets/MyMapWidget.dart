@@ -1,9 +1,11 @@
+import 'package:beco_passenger/controllers/directions_repository.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 
 import 'package:beco_passenger/controllers/geo_location_controller.dart';
+import 'package:beco_passenger/controllers/directions_model.dart';
 
 const CameraPosition _initialCameraPosition =
     CameraPosition(target: LatLng(-12.0529923, -58.3138234), zoom: 4.0);
@@ -27,10 +29,12 @@ class MyMapWidgetState extends State<MyMapWidget> {
 
   LatLng myPosition = LatLng(0, 0);
   late Marker marker;
+  Directions? _info;
 
   @override
   void initState() {
     _addMyLocationMarker();
+
     // super.dispose();
   }
 
@@ -43,7 +47,7 @@ class MyMapWidgetState extends State<MyMapWidget> {
     this._googleMapController = controller;
   }
 
-  void _addDestinationMarker(LatLng pos) {
+  void _addDestinationMarker(LatLng pos) async {
     final int markerCount = markers.length;
 
     if (markerCount == 2) {
@@ -73,8 +77,12 @@ class MyMapWidgetState extends State<MyMapWidget> {
       },
     );
 
+    final directions = await DirectionsRepository()
+        .getDirections(origin: myPosition, destination: pos);
+
     setState(() {
       markers[markerId] = marker;
+      _info = directions;
     });
   }
 
@@ -115,6 +123,8 @@ class MyMapWidgetState extends State<MyMapWidget> {
               _onMarkerDragEnd(markerId, position);
             },
           ),
+
+          // Get Directions
           setState(() {
             markers[markerId] = marker;
           }),
@@ -150,25 +160,28 @@ class MyMapWidgetState extends State<MyMapWidget> {
     final Marker? tappedMarker = markers[markerId];
     if (tappedMarker != null) {
       await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('OK'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+            content: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 66),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('Old position: ${tappedMarker.position}'),
+                  Text('New position: $newPosition'),
                 ],
-                content: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 66),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text('Old position: ${tappedMarker.position}'),
-                        Text('New position: $newPosition'),
-                      ],
-                    )));
-          });
+              ),
+            ),
+          );
+        },
+      );
     }
   }
 
@@ -180,17 +193,51 @@ class MyMapWidgetState extends State<MyMapWidget> {
       children: [
         GoogleMap(
           myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
+          zoomControlsEnabled: true,
           initialCameraPosition: _initialCameraPosition,
           onMapCreated: _onMapCreated,
           markers: Set<Marker>.of(markers.values),
+          polylines: {
+            if (_info != null)
+              Polyline(
+                polylineId: const PolylineId('overview_polyline'),
+                color: Color(0xff15192C),
+                width: 5,
+                points: _info!.polylinePoints
+                    .map((e) => LatLng(e.latitude, e.longitude))
+                    .toList(),
+              ),
+          },
           onLongPress: (LatLng pos) {
-            setState(() {
-              convertCoordinatesToAddress();
-              _addDestinationMarker(pos);
-            });
+            _addDestinationMarker(pos);
           },
         ),
+        if (_info != null)
+          Positioned(
+            top: 45,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+              decoration: BoxDecoration(
+                color: Color(0xff15192C),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 2),
+                    blurRadius: 6,
+                  ),
+                ],
+              ),
+              child: Text(
+                '${_info!.totalDistance}, ${_info!.totalDuration}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xffffffff),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }
