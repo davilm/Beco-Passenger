@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:beco_passenger/controllers/directions_model.dart';
+import 'package:beco_passenger/models/directions_model.dart';
 import 'package:beco_passenger/.env.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
