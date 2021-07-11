@@ -13,7 +13,6 @@ class SetDestination extends StatelessWidget {
 
   CollectionReference routes = FirebaseFirestore.instance.collection('routes');
 
-  String startTrip = "De";
   String endTrip = "Para";
 
   @override
@@ -39,7 +38,6 @@ class SetDestination extends StatelessWidget {
           List citiesList = [];
 
           routeDocs.forEach((doc) {
-            citiesList.add(doc["startTrip"]);
             citiesList.add(doc["endTrip"]);
 
             citiesList = citiesList.toSet().toList();
@@ -47,14 +45,6 @@ class SetDestination extends StatelessWidget {
 
           return Column(
             children: [
-              TextFieldWidget(
-                Icons.gps_fixed,
-                startTrip,
-                citiesList,
-                onChoosedRoute: (city) => {
-                  this.startTrip = city,
-                },
-              ),
               TextFieldWidget(
                 Icons.place,
                 endTrip,
@@ -86,7 +76,7 @@ class SetDestination extends StatelessWidget {
                         style: AppTextStyles.montserrat14SemiboldWhite,
                       ),
                       onPressed: () {
-                        onChoosedRoute(startTrip, endTrip);
+                        onChoosedRoute(endTrip);
                       },
                     ),
                   ),

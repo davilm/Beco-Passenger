@@ -1,9 +1,21 @@
-import 'package:beco_passenger/core/core.dart';
 import 'package:flutter/material.dart';
 
-class TravelDataWidget extends StatelessWidget {
-  const TravelDataWidget({Key? key}) : super(key: key);
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:beco_passenger/core/core.dart';
 
+import 'package:intl/intl.dart';
+
+class TravelDataWidget extends StatelessWidget {
+  final String myCityName;
+  final String endTrip;
+  final Timestamp date;
+
+  const TravelDataWidget({
+    required this.myCityName,
+    required this.endTrip,
+    required this.date,
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,12 +68,13 @@ class TravelDataWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Fortaleza",
+                  myCityName,
                   style: AppTextStyles.montserrat12MediumDark,
                 ),
                 SizedBox(height: 3),
                 Text(
-                  "Nov 14, 15:30",
+                  DateFormat("dd 'de' MMMM 'de' yyyy 'às' kk:mm:a")
+                      .format(date.toDate()),
                   style: AppTextStyles.montserrat10RegularGrey,
                 ),
                 SizedBox(height: 6),
@@ -71,12 +84,12 @@ class TravelDataWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Quixeramobim",
+                        endTrip,
                         style: AppTextStyles.montserrat12MediumDark,
                       ),
                       SizedBox(height: 3),
                       Text(
-                        "Nov 14, 18:27",
+                        "",
                         style: AppTextStyles.montserrat10RegularGrey,
                       ),
                     ],

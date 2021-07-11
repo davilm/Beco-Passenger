@@ -29,13 +29,14 @@ Future<void> getMyInfo() async {
   });
 }
 
-Future<String> addMeToRoute(routeId) async {
+Future<String> addMeToRoute(routeId, myAddress) async {
   List passengersList = await getPassengerList(routeId);
 
   await getMyInfo();
 
   if (passengersList.length < 4) {
     passengersList.add({
+      "myAddress": myAddress,
       "imageUrl": imageUrl,
       "name": passengerName,
       "uid": passengerId,
