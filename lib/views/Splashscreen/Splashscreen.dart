@@ -12,15 +12,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-        Duration(
-          seconds: 4,
-        ), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ChooseSign()),
-      );
-    });
   }
 
   @override
