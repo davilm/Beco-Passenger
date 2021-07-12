@@ -6,6 +6,14 @@ import 'package:beco_passenger/shared/widgets/InfoCardAccountWidget.dart';
 import 'package:beco_passenger/shared/widgets/InfoCardWidget.dart';
 
 class ConfigurationScreen extends StatefulWidget {
+  final String fullName;
+  final String photoURL;
+
+  ConfigurationScreen({
+    required this.fullName,
+    required this.photoURL,
+  });
+
   @override
   _ConfigurationScreenState createState() => _ConfigurationScreenState();
 }
@@ -21,7 +29,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
 
     final String config = "Configurações";
     final String account = "Conta";
-    final String userName = "David Clerisseau";
+
     final String userInfo = "Informação Pessoal";
     final String language = "Idioma";
     final String notifications = "Notificações";
@@ -65,9 +73,9 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InfoCardAccountWidget(
-                            userName,
-                            userInfo,
-                            AppImages.faceLight,
+                            photoURL: widget.photoURL,
+                            subTitle: userInfo,
+                            title: widget.fullName,
                           ),
                           Expanded(child: SizedBox()),
                           ArrowButtonWidget(() => {}),

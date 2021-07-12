@@ -22,6 +22,7 @@ class DrawerWidget extends StatelessWidget {
 
   String firstName = '';
   String lastName = '';
+  String fullName = '';
 
   void _loadCurrentUserData() {
     final _auth = FirebaseAuth.instance;
@@ -29,8 +30,11 @@ class DrawerWidget extends StatelessWidget {
     final currentUser = _auth.currentUser;
     passengerName = currentUser!.displayName;
 
-    var fullName = passengerName;
-    var separateName = fullName!.split(" ");
+    var completeName = passengerName;
+
+    fullName = completeName!;
+
+    var separateName = completeName.split(" ");
 
     firstName = separateName[0];
     lastName = separateName[1];
@@ -79,7 +83,9 @@ class DrawerWidget extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: widthMarginBody),
-                        child: ChartWidget(passengerPhotoURL),
+                        child: ChartWidget(
+                          photoURL: passengerPhotoURL,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 30),
@@ -164,8 +170,11 @@ class DrawerWidget extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        ConfigurationScreen()),
+                                  builder: (context) => ConfigurationScreen(
+                                    fullName: fullName,
+                                    photoURL: passengerPhotoURL,
+                                  ),
+                                ),
                               ),
                             }),
                       ],

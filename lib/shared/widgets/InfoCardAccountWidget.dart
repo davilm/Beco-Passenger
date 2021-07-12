@@ -4,9 +4,13 @@ import '/core/core.dart';
 class InfoCardAccountWidget extends StatefulWidget {
   final String title;
   final String subTitle;
-  final String image;
+  final String photoURL;
 
-  InfoCardAccountWidget(this.title, this.subTitle, this.image);
+  InfoCardAccountWidget({
+    required this.title,
+    required this.subTitle,
+    required this.photoURL,
+  });
 
   @override
   _InfoCardAccountWidgetState createState() => _InfoCardAccountWidgetState();
@@ -20,7 +24,7 @@ class _InfoCardAccountWidgetState extends State<InfoCardAccountWidget> {
       children: [
         CircleAvatar(
           radius: 25,
-          child: Image(image: AssetImage(widget.image)),
+          backgroundImage: NetworkImage(widget.photoURL),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChartWidget extends StatefulWidget {
-  final String image;
+  final String photoURL;
 
-  ChartWidget(this.image);
+  ChartWidget({required this.photoURL});
 
   @override
   _ChartWidgetState createState() => _ChartWidgetState();
@@ -39,7 +39,7 @@ class _ChartWidgetState extends State<ChartWidget>
             Center(
               child: CircleAvatar(
                 radius: 42,
-                backgroundImage: NetworkImage(widget.image),
+                backgroundImage: NetworkImage(widget.photoURL),
               ),
             ),
             Center(
