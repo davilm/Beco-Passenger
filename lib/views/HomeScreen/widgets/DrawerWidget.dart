@@ -46,158 +46,162 @@ class DrawerWidget extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width / 1.1,
         child: Drawer(
-          child: Padding(
-            padding: EdgeInsets.only(left: widthMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: heightMarginTitle),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: widthMarginBody),
-                      child: ChartWidget(image),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 30),
-                      child: Container(
-                        color: Color(0xffD0D2DA),
-                        height: 80,
-                        width: 2,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            joined,
-                            style: GoogleFonts.beVietnam(
-                                fontSize: 12, color: Color(0xff92959E)),
-                          ),
-                          Text(
-                            timeJoined,
-                            style: GoogleFonts.beVietnam(
-                                fontSize: 12, color: Color(0xff15192C)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: widthMarginBody, top: 24),
-                  child: Stack(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.only(left: widthMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: heightMarginTitle),
+                  Row(
                     children: [
-                      Text(
-                        firstName,
-                        style: AppTextStyles.firstName,
+                      Padding(
+                        padding: EdgeInsets.only(left: widthMarginBody),
+                        child: ChartWidget(image),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text(
-                          lastName,
-                          style: AppTextStyles.secondName,
+                        padding: EdgeInsets.only(left: 30),
+                        child: Container(
+                          color: Color(0xffD0D2DA),
+                          height: 80,
+                          width: 2,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              joined,
+                              style: GoogleFonts.beVietnam(
+                                  fontSize: 12, color: Color(0xff92959E)),
+                            ),
+                            Text(
+                              timeJoined,
+                              style: GoogleFonts.beVietnam(
+                                  fontSize: 12, color: Color(0xff15192C)),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: widthMarginBody,
-                    top: heightMarginTitle,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InfoCardWidget(myTravels, AppImages.languageLight),
-                      Expanded(
-                        child: SizedBox(),
-                      ),
-                      ArrowButtonWidget(() => {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => MyTravelsScreen()),
-                            // ),
-                          }),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: widthMarginBody, top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InfoCardWidget(settings, AppImages.configLight),
-                      Expanded(
-                        child: SizedBox(),
-                      ),
-                      ArrowButtonWidget(() => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ConfigurationScreen()),
-                            ),
-                          }),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: widthMarginBody, bottom: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xffF5F5F7),
-                      borderRadius: BorderRadius.circular(10),
+                  Padding(
+                    padding: EdgeInsets.only(left: widthMarginBody, top: 24),
+                    child: Stack(
+                      children: [
+                        Text(
+                          firstName,
+                          style: AppTextStyles.firstName,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30),
+                          child: Text(
+                            lastName,
+                            style: AppTextStyles.secondName,
+                          ),
+                        ),
+                      ],
                     ),
-                    width: 120,
-                    height: 42,
-                    child: ElevatedButton(
-                      style: raisedButtonStyle,
-                      onPressed: () async {
-                        String sign = await Authentication().signOut();
-                        if (sign == "Sign Out") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChooseSign()));
-                        } else {}
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Container(
-                              color: Color(0xfff55F7),
-                              width: 14,
-                              height: 14,
-                              child: Image(
-                                image: AssetImage(AppImages.signoutLight),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: widthMarginBody,
+                      top: heightMarginTitle,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InfoCardWidget(myTravels, AppImages.languageLight),
+                        Expanded(
+                          child: SizedBox(),
+                        ),
+                        ArrowButtonWidget(() => {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => MyTravelsScreen()),
+                              // ),
+                            }),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: widthMarginBody, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InfoCardWidget(settings, AppImages.configLight),
+                        Expanded(
+                          child: SizedBox(),
+                        ),
+                        ArrowButtonWidget(() => {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ConfigurationScreen()),
+                              ),
+                            }),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: widthMarginBody, bottom: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffF5F5F7),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      width: 120,
+                      height: 42,
+                      child: ElevatedButton(
+                        style: raisedButtonStyle,
+                        onPressed: () async {
+                          String sign = await Authentication().signOut();
+                          if (sign == "Sign Out") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChooseSign()));
+                          } else {}
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Container(
+                                color: Color(0xfff55F7),
+                                width: 14,
+                                height: 14,
+                                child: Image(
+                                  image: AssetImage(AppImages.signoutLight),
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            "Sign Out",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xff15192C),
+                            Text(
+                              "Sign Out",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xff15192C),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
