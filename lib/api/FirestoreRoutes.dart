@@ -36,7 +36,7 @@ Future<String> addMeToRoute(routeId, myAddress) async {
 
   if (passengersList.length < 4) {
     passengersList.add({
-      "myAddress": myAddress,
+      "address": myAddress,
       "imageUrl": imageUrl,
       "name": passengerName,
       "uid": passengerId,
