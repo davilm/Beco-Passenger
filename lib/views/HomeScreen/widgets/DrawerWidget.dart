@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -15,16 +16,36 @@ import 'package:beco_passenger/shared/widgets/InfoCardWidget.dart';
 class DrawerWidget extends StatelessWidget {
   DrawerWidget({Key? key}) : super(key: key);
 
+  String? passengerName;
+  String passengerPhotoURL = '';
+  String? passengerUid;
+
+  String firstName = '';
+  String lastName = '';
+
+  void _loadCurrentUserData() {
+    final _auth = FirebaseAuth.instance;
+
+    final currentUser = _auth.currentUser;
+    passengerName = currentUser!.displayName;
+
+    var fullName = passengerName;
+    var separateName = fullName!.split(" ");
+
+    firstName = separateName[0];
+    lastName = separateName[1];
+
+    var image = currentUser.photoURL;
+    passengerPhotoURL = image!;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final image = AppImages.faceLight;
+    _loadCurrentUserData();
 
     final double heightMarginTitle = MediaQuery.of(context).size.width / 5;
     final double widthMargin = MediaQuery.of(context).size.width / 40;
     final double widthMarginBody = MediaQuery.of(context).size.width / 8;
-
-    final String firstName = "David";
-    final String lastName = "Clerisseau";
 
     final String myTravels = "Minhas viagens";
     final String settings = "Configurações";
@@ -58,7 +79,7 @@ class DrawerWidget extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: widthMarginBody),
-                        child: ChartWidget(image),
+                        child: ChartWidget(passengerPhotoURL),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 30),

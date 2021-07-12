@@ -39,7 +39,7 @@ class _ChartWidgetState extends State<ChartWidget>
             Center(
               child: CircleAvatar(
                 radius: 42,
-                child: Image(image: AssetImage(widget.image)),
+                backgroundImage: NetworkImage(widget.image),
               ),
             ),
             Center(
