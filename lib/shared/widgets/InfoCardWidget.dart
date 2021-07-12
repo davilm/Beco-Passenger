@@ -20,7 +20,7 @@ class _InfoCardWidgetState extends State<InfoCardWidget> {
       children: [
         CircleAvatar(
           radius: 25,
-          child: Image(image: AssetImage(widget.image)),
+          backgroundImage: AssetImage(widget.image),
         ),
         Padding(
           padding: EdgeInsets.only(left: 20),
