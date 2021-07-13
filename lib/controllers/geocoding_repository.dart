@@ -12,7 +12,7 @@ class GeocodingRepository {
 
   GeocodingRepository({Dio? dio}) : _dio = dio ?? Dio();
 
-  Future<Geocoding> getLatLng({
+  Future<Geocoding> getAddress({
     @required LatLng? latlng,
   }) async {
     final response = await _dio.get(
