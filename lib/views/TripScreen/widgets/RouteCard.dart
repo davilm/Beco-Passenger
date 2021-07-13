@@ -35,6 +35,10 @@ class RouteCard extends StatefulWidget {
 class _RouteCardState extends State<RouteCard> {
   @override
   Widget build(BuildContext context) {
+    var separateName = widget.driverName.split(" ");
+
+    String firstName = separateName[0];
+
     return Column(
       children: [
         Container(
@@ -60,7 +64,7 @@ class _RouteCardState extends State<RouteCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.driverName,
+                      firstName,
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     ),
                     SizedBox(height: 6),
