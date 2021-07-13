@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 
 class SetDestination extends StatelessWidget {
   final Function onChoosedRoute;
+  // final Function buildMarker;
+  final String myCityName;
 
   SetDestination({
     required this.onChoosedRoute,
+    // required this.buildMarker,
+    required this.myCityName,
     Key? key,
   });
 
@@ -21,7 +25,7 @@ class SetDestination extends StatelessWidget {
 
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-        stream: routes.snapshots(),
+        stream: routes.where("startTrip", isEqualTo: myCityName).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
