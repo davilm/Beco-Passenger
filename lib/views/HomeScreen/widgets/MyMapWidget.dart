@@ -2,14 +2,18 @@ import 'package:beco_passenger/api/FirestoreRoutes.dart';
 import 'package:beco_passenger/controllers/directions_repository.dart';
 import 'package:beco_passenger/controllers/geocoding_repository.dart';
 import 'package:beco_passenger/core/core.dart';
+import 'package:beco_passenger/models/reverse_geocoding_model.dart';
+import 'package:beco_passenger/shared/widgets/TravelDataWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/AddOnsRowWidget.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
 import 'package:beco_passenger/views/TripInfoScreen/TripInfoScreen.dart';
 import 'package:beco_passenger/views/TripScreen/TripScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 
 import 'package:beco_passenger/controllers/geo_location_controller.dart';
 import 'package:beco_passenger/models/directions_model.dart';
@@ -25,8 +29,6 @@ class MyMapWidget extends StatefulWidget {
 }
 
 class MyMapWidgetState extends State<MyMapWidget> {
-  MyMapWidgetState();
-
   static final LatLng center = const LatLng(-33.86711, 151.1947171);
 
   GoogleMapController? _googleMapController;
@@ -40,6 +42,18 @@ class MyMapWidgetState extends State<MyMapWidget> {
 
   var myAddress;
   var myCityName;
+  var fullAddress;
+  var routeDistance;
+  var routeDuration;
+  var directions;
+
+  String startTrip = "";
+  String endTrip = "";
+  Timestamp date = Timestamp.now();
+  String price = "";
+  String selectedRoute = "void";
+  int myFlag = 0;
+  bool cityNameLoaded = false;
 
   @override
   void initState() {
@@ -57,36 +71,42 @@ class MyMapWidgetState extends State<MyMapWidget> {
   }
 
   Future<void> _getMyAddress() async {
-    var address = await GeocodingRepository().getLatLng(latlng: myPosition);
+    var address = await GeocodingRepository().getAddress(latlng: myPosition);
 
     setState(() {
       myAddress = address.formattedAddress;
       myCityName = address.cityName;
+      fullAddress = address.fullAddress;
     });
+
+    cityNameLoaded = true;
   }
 
-  void _addDestinationMarker(LatLng pos) async {
-    final int markerCount = markers.length;
+  Future<ReverseGeocoding> _getLatLng(String pos) async {
+    var latLng = await GeocodingRepository().getLatLng(address: pos);
 
-    if (markerCount == 2) {
-      return;
-    }
+    print("latLng: $latLng.latLng");
+    return latLng;
+  }
 
-    final String markerIdVal = 'marker_id_$_markerIdCounter';
-    _markerIdCounter++;
+  LatLng midPoint(double lat1, double long1, double lat2, double long2) {
+    return new LatLng((lat1 + lat2) / 2, (long1 + long2) / 2);
+  }
+
+  void _addDestinationMarker() async {
+    var pos = await _getLatLng(endTrip);
+
+    LatLng endTripPosition = pos.latLng;
+
+    final String markerIdVal = 'marker_id_2';
+
     final MarkerId markerId = MarkerId(markerIdVal);
 
     final Marker marker = Marker(
       markerId: markerId,
-      position: pos,
-      infoWindow: markerCount == 0
-          ? InfoWindow(
-              title: "Inicio da rota",
-              snippet: 'Sua viagem começa a partir daqui')
-          : InfoWindow(title: "Destino", snippet: 'Esse é seu destino'),
-      icon: markerCount == 0
-          ? BitmapDescriptor.defaultMarker
-          : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      position: endTripPosition,
+      infoWindow: InfoWindow(title: endTrip, snippet: 'Esse é seu destino'),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       onTap: () {
         _onMarkerTapped(markerId);
       },
@@ -95,28 +115,25 @@ class MyMapWidgetState extends State<MyMapWidget> {
       },
     );
 
-    final directions = await DirectionsRepository()
-        .getDirections(origin: myPosition, destination: pos);
+    directions = await DirectionsRepository()
+        .getDirections(origin: myPosition, destination: endTripPosition);
+
+    _googleMapController?.animateCamera(
+      CameraUpdate.newCameraPosition(CameraPosition(
+        target: midPoint(
+          myPosition.latitude,
+          myPosition.longitude,
+          endTripPosition.latitude,
+          endTripPosition.longitude,
+        ),
+        zoom: 7.0,
+      )),
+    );
 
     setState(() {
       markers[markerId] = marker;
       _info = directions;
     });
-  }
-
-  convertCoordinatesToAddress() async {
-    try {
-      final coordinates = new Coordinates(1.10, 45.50);
-      var addresses =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      var first = addresses.first;
-      print("${first.featureName} : ${first.addressLine}");
-      // latitude: myPosition.latitude,
-      // longitude: myPosition.longitude,
-
-    } catch (e) {
-      print(e);
-    }
   }
 
   _addMyLocationMarker() async {
@@ -143,7 +160,6 @@ class MyMapWidgetState extends State<MyMapWidget> {
           ),
 
           _getMyAddress(),
-
           // Get Directions
           setState(() {
             markers[markerId] = marker;
@@ -205,13 +221,6 @@ class MyMapWidgetState extends State<MyMapWidget> {
     }
   }
 
-  String startTrip = "";
-  String endTrip = "";
-  late Timestamp date;
-  String price = "";
-  String selectedRoute = "void";
-  int myFlag = 0;
-
   errorSnack(message, color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -230,15 +239,15 @@ class MyMapWidgetState extends State<MyMapWidget> {
 
     final generalWidth = MediaQuery.of(context).size.width;
     final double fieldButtonHeight = 60;
+
     return Column(
       children: [
-        Container(
-          height: 400,
+        Expanded(
           child: Stack(
             children: [
               GoogleMap(
                 myLocationButtonEnabled: false,
-                zoomControlsEnabled: true,
+                zoomControlsEnabled: false,
                 initialCameraPosition: _initialCameraPosition,
                 onMapCreated: _onMapCreated,
                 markers: Set<Marker>.of(markers.values),
@@ -253,14 +262,14 @@ class MyMapWidgetState extends State<MyMapWidget> {
                           .toList(),
                     ),
                 },
-                onLongPress: (LatLng pos) {
-                  _addDestinationMarker(pos);
-                },
+                // onLongPress: (LatLng pos) {
+                //   _addDestinationMarker(pos);
+                // },
               ),
               if (_info != null)
                 Positioned(
                   top: 45,
-                  left: MediaQuery.of(context).size.width / 3,
+                  left: MediaQuery.of(context).size.width / 4,
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
@@ -285,170 +294,333 @@ class MyMapWidgetState extends State<MyMapWidget> {
                     ),
                   ),
                 ),
+              Positioned(
+                bottom: 0,
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0, // soften the shadow
+                            spreadRadius: 0, //extend the shadow
+                            offset: Offset(
+                              0, // Move to right 10  horizontally
+                              -2.0, // Move to bottom 10 Vertically
+                            ),
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 12,
+                          bottom: 12,
+                          left: widthMargin * 5,
+                          right: widthMargin * 1.3,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (myFlag == 0)
+                              Text(
+                                "Para onde?",
+                                style: GoogleFonts.montserrat(
+                                  color: Color(0xff15192C),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                ),
+                              ),
+                            if (myFlag == 0)
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    myFlag = 0;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Color(0xff15192C),
+                                  size: 25.0,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (myFlag == 0)
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Color(0xffD0D2DA),
+                      ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height / 2.8,
-          child: Center(
+          color: Colors.white,
+          child: Padding(
+            padding: myFlag == 0
+                ? EdgeInsets.only(top: 20)
+                : EdgeInsets.only(top: 0),
             child: Column(
               children: [
-                if (myFlag == 0)
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: widthMargin * 5,
-                      right: widthMargin * 5,
-                      bottom: 10,
-                    ),
-                    child: Container(
-                      height: fieldButtonHeight,
-                      width: generalWidth,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Color(0xffD0D2DA),
-                          width: 1,
-                        ),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
+                Container(
+                  color: Colors.white,
+                  height: myFlag == 0
+                      ? MediaQuery.of(context).size.height / 2.8
+                      : MediaQuery.of(context).size.height / 1.7,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        if (myFlag == 0)
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 15),
-                            child: Icon(
-                              Icons.gps_fixed,
-                              color: Color(0xff92959E),
-                              size: 30.0,
+                            padding: EdgeInsets.only(
+                              left: widthMargin * 5,
+                              right: widthMargin * 5,
+                              bottom: 10,
+                            ),
+                            child: Container(
+                              height: fieldButtonHeight,
+                              width: generalWidth,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Color(0xffD0D2DA),
+                                  width: 1,
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 15,
+                                    ),
+                                    child: Icon(
+                                      Icons.gps_fixed,
+                                      color: Color(0xff15192C),
+                                      size: 30.0,
+                                    ),
+                                  ),
+                                  if (fullAddress != null)
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: Text(
+                                        fullAddress,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff92959E),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
-                          if (myAddress != null)
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Text(
-                                myAddress,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xff92959E),
-                                  fontWeight: FontWeight.w600,
+                        if (myFlag == 0 && cityNameLoaded == true)
+                          SetDestination(
+                            myCityName: myCityName,
+                            onChoosedRoute: (endTrip) => {
+                              setState(
+                                () {
+                                  this.endTrip = endTrip;
+                                  myFlag++;
+                                },
+                              ),
+                              _addDestinationMarker(),
+                            },
+                          ),
+                        if (myFlag == 1)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: widthMargin * 5,
+                              right: widthMargin * 1.3,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (_info != null)
+                                  TravelDataWidget(
+                                    directions,
+                                    myCityName: myCityName,
+                                    endTrip: endTrip,
+                                    date: date,
+                                    flag: true,
+                                  ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      myFlag = 0;
+                                      date = Timestamp.now();
+                                      price = "";
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Color(0xff15192C),
+                                    size: 25.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (myFlag == 1)
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 20),
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 90,
+                            child: TripScreen(
+                              myCityName,
+                              endTrip,
+                              pickRouteId: (routeId) {
+                                setState(() {
+                                  if (routeId != "void") {
+                                    this.selectedRoute = routeId;
+                                  } else {
+                                    setState(() {
+                                      myFlag = 0;
+                                    });
+                                  }
+                                });
+                              },
+                              pickDate: (date) {
+                                setState(() {
+                                  this.date = date;
+                                  print(date);
+                                });
+                              },
+                              pickTravelPrice: (price) {
+                                setState(() {
+                                  this.price = price;
+                                  print(price);
+                                });
+                              },
+                            ),
+                          ),
+                        if (myFlag == 1)
+                          AddOnsRowWidget(
+                            description: "Assento de bebê",
+                            price: "+R\$ 20",
+                          ),
+                        if (myFlag == 1)
+                          AddOnsRowWidget(
+                            description: "Pegar em casa",
+                            price: "+R\$ 20",
+                          ),
+                        if (myFlag == 1)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: widthMargin * 5 + 40,
+                              right: widthMargin * 5,
+                              bottom: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total",
+                                  style: AppTextStyles.montserrat12BoldDark,
+                                ),
+                                Text(
+                                  "R\$ $price",
+                                  style: AppTextStyles.montserrat12BoldDark,
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (myFlag == 1)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: widthMargin * 5,
+                              right: widthMargin * 5,
+                              bottom: 20,
+                            ),
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xff15192C),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Definir Destino",
+                                    style:
+                                        AppTextStyles.montserrat14SemiboldWhite,
+                                  ),
+                                  onPressed: () async {
+                                    String response;
+                                    response = await addMeToRoute(
+                                        selectedRoute, myAddress);
+                                    if (response == 'esgotado') {
+                                      setState(() {
+                                        myFlag = 0;
+                                      });
+                                      errorSnack(
+                                        'Vagas esgotadas, escolha outro motorista',
+                                        Theme.of(context).errorColor,
+                                      );
+                                    } else if (response == 'sucesso') {
+                                      String routeId = selectedRoute;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TripInfoScreen(
+                                              directions,
+                                              myCityName: myCityName,
+                                              endTrip: endTrip,
+                                              travelPrice: price,
+                                              date: date,
+                                              selectedRoute: routeId,
+                                            ),
+                                          ));
+                                      errorSnack(
+                                        'Viagem marcada com sucesso!',
+                                        Colors.green,
+                                      );
+                                      setState(() {
+                                        myFlag = 0;
+                                        selectedRoute = 'void';
+                                      });
+                                    } else {
+                                      setState(() {
+                                        myFlag = 0;
+                                      });
+                                      errorSnack(
+                                        response,
+                                        Theme.of(context).errorColor,
+                                      );
+                                    }
+                                  },
                                 ),
                               ),
                             ),
-                        ],
-                      ),
-                    ),
-                  ),
-                if (myFlag == 0)
-                  SetDestination(
-                    onChoosedRoute: (endTrip) => {
-                      this.endTrip = endTrip,
-                      setState(() {
-                        myFlag++;
-                      }),
-                    },
-                  ),
-                if (myFlag == 1)
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    height: 140,
-                    child: TripScreen(
-                      myCityName,
-                      endTrip,
-                      pickRouteId: (routeId) {
-                        setState(() {
-                          if (routeId != "void") {
-                            this.selectedRoute = routeId;
-                          } else {
-                            setState(() {
-                              myFlag = 0;
-                            });
-                          }
-                        });
-                      },
-                      pickDate: (date) {
-                        setState(() {
-                          this.date = date;
-                          print(date);
-                        });
-                      },
-                      pickTravelPrice: (price) {
-                        setState(() {
-                          this.price = price;
-                          print(price);
-                        });
-                      },
-                    ),
-                  ),
-                if (myFlag == 1)
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: widthMargin * 5,
-                      right: widthMargin * 5,
-                      bottom: 20,
-                    ),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xff15192C),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
                           ),
-                          child: Text(
-                            "Definir Destino",
-                            style: AppTextStyles.montserrat14SemiboldWhite,
-                          ),
-                          onPressed: () async {
-                            String response;
-                            response =
-                                await addMeToRoute(selectedRoute, myAddress);
-                            if (response == 'esgotado') {
-                              setState(() {
-                                myFlag = 0;
-                              });
-                              errorSnack(
-                                'Vagas esgotadas, escolha outro motorista',
-                                Theme.of(context).errorColor,
-                              );
-                            } else if (response == 'sucesso') {
-                              String routeId = selectedRoute;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TripInfoScreen(
-                                      myCityName: myCityName,
-                                      endTrip: endTrip,
-                                      travelPrice: price,
-                                      date: date,
-                                      selectedRoute: routeId,
-                                    ),
-                                  ));
-                              errorSnack(
-                                'Viagem marcada com sucesso!',
-                                Colors.green,
-                              );
-                              setState(() {
-                                myFlag = 0;
-                                selectedRoute = 'void';
-                              });
-                            } else {
-                              setState(() {
-                                myFlag = 0;
-                              });
-                              errorSnack(
-                                response,
-                                Theme.of(context).errorColor,
-                              );
-                            }
-                          },
-                        ),
-                      ),
+                      ],
                     ),
                   ),
+                ),
               ],
             ),
           ),

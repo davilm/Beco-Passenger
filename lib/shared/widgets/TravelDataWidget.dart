@@ -1,3 +1,4 @@
+import 'package:beco_passenger/models/directions_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,20 +7,25 @@ import 'package:beco_passenger/core/core.dart';
 import 'package:intl/intl.dart';
 
 class TravelDataWidget extends StatelessWidget {
+  final Directions totalDistance;
   final String myCityName;
   final String endTrip;
   final Timestamp date;
+  final bool flag;
 
-  const TravelDataWidget({
+  const TravelDataWidget(
+    this.totalDistance, {
     required this.myCityName,
     required this.endTrip,
     required this.date,
+    this.flag = false,
     Key? key,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130,
+      height: flag ? 100 : 130,
       child: Row(
         children: [
           Column(
@@ -95,28 +101,29 @@ class TravelDataWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "212 km",
-                        style: AppTextStyles.montserrat10SemiboldGrey,
-                      ),
-                      SizedBox(width: 8),
-                      CircleAvatar(
-                        backgroundColor: Color(0xff92959E),
-                        radius: 1,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        "3 h  47 min",
-                        style: AppTextStyles.montserrat10SemiboldGrey,
-                      ),
-                    ],
+                if (flag == false)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${totalDistance.totalDistance}",
+                          style: AppTextStyles.montserrat10SemiboldGrey,
+                        ),
+                        SizedBox(width: 8),
+                        CircleAvatar(
+                          backgroundColor: Color(0xff92959E),
+                          radius: 1,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "${totalDistance.totalDuration}",
+                          style: AppTextStyles.montserrat10SemiboldGrey,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:beco_passenger/models/directions_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -7,13 +8,15 @@ import 'package:beco_passenger/GetRouteDetails.dart';
 import 'package:beco_passenger/shared/widgets/TravelDataWidget.dart';
 
 class TripInfoScreen extends StatefulWidget {
+  final Directions totalDistance;
   final String myCityName;
   final String endTrip;
   final String travelPrice;
   final Timestamp date;
   final String selectedRoute;
 
-  TripInfoScreen({
+  TripInfoScreen(
+    this.totalDistance, {
     required this.myCityName,
     required this.endTrip,
     required this.travelPrice,
@@ -161,6 +164,7 @@ class _TripInfoScreenState extends State<TripInfoScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: widthMargin * 5),
                   child: TravelDataWidget(
+                    widget.totalDistance,
                     myCityName: widget.myCityName,
                     endTrip: widget.endTrip,
                     date: widget.date,
