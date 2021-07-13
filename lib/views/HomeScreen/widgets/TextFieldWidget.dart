@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatefulWidget {
-  IconData icon;
+  final IconData icon;
   String trip;
-  List cityList;
+  final List cityList;
   final Function onChoosedRoute;
 
   TextFieldWidget(
@@ -50,7 +50,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               padding: const EdgeInsets.only(left: 20, right: 15),
               child: Icon(
                 widget.icon,
-                color: Color(0xff92959E),
+                color: Color(0xff15192C),
                 size: 30.0,
               ),
             ),
