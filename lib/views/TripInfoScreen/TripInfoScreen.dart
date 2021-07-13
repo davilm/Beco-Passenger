@@ -1,11 +1,13 @@
-import 'package:beco_passenger/models/directions_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:beco_passenger/core/core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:beco_passenger/core/core.dart';
 import 'package:beco_passenger/GetRouteDetails.dart';
+
 import 'package:beco_passenger/shared/widgets/TravelDataWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/HomeScreen.dart';
+import 'package:beco_passenger/models/directions_model.dart';
 
 class TripInfoScreen extends StatefulWidget {
   final Directions totalDistance;
@@ -194,7 +196,11 @@ class _TripInfoScreenState extends State<TripInfoScreen> {
                       "Encerrar viagem",
                       style: AppTextStyles.montserrat14SemiboldWhite,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      );
+                    },
                   ),
                 ),
               ),
