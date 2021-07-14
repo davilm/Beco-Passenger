@@ -49,6 +49,7 @@ class _SignInState extends State<SignIn> {
                 width: MediaQuery.of(context).size.width / 1.09,
                 child: TextFormField(
                   key: ValueKey('Email'),
+                  textCapitalization: TextCapitalization.none,
                   decoration: InputDecoration(
                     labelText: 'Email',
                   ),

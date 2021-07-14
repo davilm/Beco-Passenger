@@ -49,7 +49,7 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 1.38,
+      width: MediaQuery.of(context).size.width,
       height: 50,
       decoration: BoxDecoration(
         color: Color(0xffF4F4F7),

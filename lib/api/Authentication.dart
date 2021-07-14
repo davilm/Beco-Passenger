@@ -17,15 +17,24 @@ class Authentication {
     String cpf,
     String password,
   ) async {
+    String photoURL =
+        "https://firebasestorage.googleapis.com/v0/b/beco-9fab4.appspot.com/o/face-light.png?alt=media&token=ceaba8cb-80ec-4f20-a56f-976f16d22216";
+
     userCredential = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
+
+    UpdateCurrentUser(
+      displayName: name,
+      newEmail: email,
+      photoURL: photoURL,
+      newPassword: password,
+    );
 
     final userData = {
       'name': name,
       'cpf': cpf,
       'email': email,
-      'imageUrl':
-          "https://firebasestorage.googleapis.com/v0/b/beco-9fab4.appspot.com/o/face-light.png?alt=media&token=ceaba8cb-80ec-4f20-a56f-976f16d22216",
+      'imageUrl': photoURL,
     };
 
     await FirebaseFirestore.instance
@@ -42,5 +51,21 @@ class Authentication {
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
     }
+  }
+
+  Future<void> UpdateCurrentUser({
+    required displayName,
+    required newEmail,
+    required photoURL,
+    required newPassword,
+  }) async {
+    final _auth = FirebaseAuth.instance;
+
+    final user = _auth.currentUser;
+
+    user!.updateDisplayName(displayName);
+    user.updateEmail(newEmail);
+    user.updatePhotoURL(photoURL);
+    user.updatePassword(newPassword);
   }
 }
