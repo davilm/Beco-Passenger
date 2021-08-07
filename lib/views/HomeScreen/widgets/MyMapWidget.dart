@@ -144,26 +144,14 @@ class MyMapWidgetState extends State<MyMapWidget> {
             controller.latitude,
             controller.longitude,
           ),
-          marker = Marker(
-            markerId: markerId,
-            position: myPosition,
-            infoWindow: InfoWindow(
-                title: "Minha localização",
-                snippet: 'Sua viagem começa a partir daqui'),
-            icon: BitmapDescriptor.defaultMarker,
-            onTap: () {
-              _onMarkerTapped(markerId);
-            },
-            onDragEnd: (LatLng position) {
-              _onMarkerDragEnd(markerId, position);
-            },
-          ),
 
           _getMyAddress(),
           // Get Directions
-          setState(() {
-            markers[markerId] = marker;
-          }),
+
+          _googleMapController!.animateCamera(
+            CameraUpdate.newLatLng(myPosition),
+          ),
+
           _googleMapController?.animateCamera(
             CameraUpdate.newCameraPosition(
                 CameraPosition(target: myPosition, zoom: 13.0)),
@@ -248,6 +236,7 @@ class MyMapWidgetState extends State<MyMapWidget> {
               GoogleMap(
                 myLocationButtonEnabled: false,
                 zoomControlsEnabled: false,
+                myLocationEnabled: true,
                 initialCameraPosition: _initialCameraPosition,
                 onMapCreated: _onMapCreated,
                 markers: Set<Marker>.of(markers.values),
