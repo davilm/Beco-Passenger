@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/DrawerWidget.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/MyMapWidget.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final generalWidth = MediaQuery.of(context).size.width;
     final double fieldButtonHeight = 60;
+    final double halfScreenWidth = MediaQuery.of(context).size.width / 2;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   children: [
                     MyMapWidget(),
-                    if (mapStore.flag == 0)
+                    if (mapStore.flag == 0 && mapStore.cityNameLoaded)
                       Positioned(
                         bottom: 0,
                         child: ModalTopWidget(
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(
                           child: Column(
                             children: [
-                              if (mapStore.flag == 0)
+                              if (mapStore.flag == 0 && mapStore.cityNameLoaded)
                                 Padding(
                                   padding: EdgeInsets.only(
                                     left: widthMargin * 5,
@@ -132,36 +132,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                             size: 30.0,
                                           ),
                                         ),
-                                        if (mapStore.fullAddress != null)
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2,
-                                            child: Text(
-                                              mapStore.fullAddress,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: Color(0xff92959E),
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                        Container(
+                                          width: halfScreenWidth,
+                                          child: Text(
+                                            mapStore.fullAddress ?? "",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xff92959E),
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                              if (mapStore.flag == 0 &&
-                                  mapStore.cityNameLoaded == true)
+                              if (mapStore.flag == 0 && mapStore.cityNameLoaded)
                                 SetDestination(
-                                  myCityName: mapStore.myCityName,
+                                  myCityName: mapStore.myCityName ?? "",
                                   onChoosedRoute: (endTrip) => {
-                                    setState(
-                                      () {
-                                        mapStore.endTrip = endTrip;
-                                        mapStore.flag++;
-                                      },
-                                    ),
+                                    mapStore.endTrip = endTrip,
+                                    mapStore.flag++,
                                     mapStore.addDestinationMarker(),
                                   },
                                 ),
