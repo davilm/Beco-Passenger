@@ -3,6 +3,7 @@ import 'package:beco_passenger/core/core.dart';
 import 'package:beco_passenger/shared/widgets/TravelDataWidget.dart';
 import 'package:beco_passenger/stores/map_store.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/AddOnsRowWidget.dart';
+import 'package:beco_passenger/views/HomeScreen/widgets/ModalTopWidget.dart';
 import 'package:beco_passenger/views/HomeScreen/widgets/SetDestination.dart';
 import 'package:beco_passenger/views/TripInfoScreen/TripInfoScreen.dart';
 import 'package:beco_passenger/views/TripScreen/TripScreen.dart';
@@ -70,77 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   children: [
                     MyMapWidget(),
-                    Positioned(
-                      bottom: 0,
-                      child: Column(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10.0, // soften the shadow
-                                  spreadRadius: 0, //extend the shadow
-                                  offset: Offset(
-                                    0, // Move to right 10  horizontally
-                                    -2.0, // Move to bottom 10 Vertically
-                                  ),
-                                ),
-                              ],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                top: 12,
-                                bottom: 12,
-                                left: widthMargin * 5,
-                                right: widthMargin * 1.3,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  if (mapStore.flag == 0)
-                                    Text(
-                                      "Para onde?",
-                                      style: GoogleFonts.montserrat(
-                                        color: Color(0xff15192C),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                  if (mapStore.flag == 0)
-                                    IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          mapStore.flag = 0;
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: Color(0xff15192C),
-                                        size: 25.0,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          if (mapStore.flag == 0)
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 1,
-                              color: Color(0xffD0D2DA),
-                            ),
-                        ],
+                    if (mapStore.flag == 0)
+                      Positioned(
+                        bottom: 0,
+                        child: ModalTopWidget(
+                          title: "Para onde?",
+                          icon: "close",
+                          onPressed: () => mapStore.flag = 0,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
